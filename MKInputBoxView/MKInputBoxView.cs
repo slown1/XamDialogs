@@ -2,6 +2,7 @@ using System;
 using UIKit;
 using Foundation;
 using CoreGraphics;
+using System.Collections.Generic;
 
 namespace MKInputBoxView {
     
@@ -24,7 +25,7 @@ namespace MKInputBoxView {
         
 		private UIBlurEffectStyle _BlurEffectStyle = UIBlurEffectStyle.Light;
         
-        private NSMutableArray _Elements;
+		private List<UIControl> _Elements;
         
         private UIVisualEffectView _VisualEffectView;
         
@@ -42,7 +43,7 @@ namespace MKInputBoxView {
 		#region Properties
 
 
-		private String Title {
+		public String Title {
 			get {
 				return this._Title;
 			}
@@ -51,7 +52,7 @@ namespace MKInputBoxView {
 			}
 		}
 
-		private String Message {
+		public String Message {
 			get {
 				return this._Message;
 			}
@@ -60,7 +61,7 @@ namespace MKInputBoxView {
 			}
 		}
 
-		private String SubmitButtonText {
+		public String SubmitButtonText {
 			get {
 				return this._SubmitButtonText;
 			}
@@ -69,7 +70,7 @@ namespace MKInputBoxView {
 			}
 		}
 
-		private String CancelButtonText {
+		public String CancelButtonText {
 			get {
 				return this._CancelButtonText;
 			}
@@ -82,12 +83,12 @@ namespace MKInputBoxView {
 			get {
 				return this._BoxType;
 			}
-			set {
+			private set {
 				this._BoxType = value;
 			}
 		}
 
-		private nint NumberOfDecimals {
+		public nint NumberOfDecimals {
 			get {
 				return this._NumberOfDecimals;
 			}
@@ -96,7 +97,7 @@ namespace MKInputBoxView {
 			}
 		}
 
-		private UIBlurEffectStyle BlurEffectStyle {
+		public UIBlurEffectStyle BlurEffectStyle {
 			get {
 				return this._BlurEffectStyle;
 			}
@@ -105,7 +106,7 @@ namespace MKInputBoxView {
 			}
 		}
 
-		private NSMutableArray Elements {
+		private List<UIControl> Elements {
 			get {
 				return this._Elements;
 			}
@@ -283,10 +284,13 @@ namespace MKInputBoxView {
 
         }
         
+		/// <summary>
+		/// Setups the view.
+		/// </summary>
         private void SetupView() 
 		{
             // 
-			this.Elements = new NSMutableArray();
+			this.Elements = new List<UIControl>();
 
             // 
              this.ActualBox.Layer.CornerRadius   = 4.0f;
@@ -400,17 +404,57 @@ namespace MKInputBoxView {
 					break;
 				case MKInputBoxType.SecureTextInput:
 					{
+						this.TextInput = new UITextField(new CGRect(padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding / 1.5, width, 30));
+						this.TextInput.TextAlignment = UITextAlignment.Center;
+					    this.TextInput.SecureTextEntry = true;
 
+						if (this.Customise != null) {
+							this.TextInput = this.Customise(this.TextInput);
+						}
+
+						this.Elements.Add(this.TextInput);
 					}
 					break;
 				case MKInputBoxType.PhoneNumberInput:
 					{
+						this.TextInput = new UITextField(new CGRect(padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding / 1.5, width, 30));
+						this.TextInput.TextAlignment = UITextAlignment.Center;
 
+						if (this.Customise != null) 
+					    {
+							this.TextInput = this.Customise(this.TextInput);
+						}
+
+						this.Elements.Add(this.TextInput);
+
+					    this.TextInput.KeyboardType = UIKeyboardType.PhonePad;
 					}
 					break;
 				case MKInputBoxType.LoginAndPasswordInput:
 					{
+						this.TextInput = new UITextField(new CGRect(padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding / 1.5, width, 30));
+						this.TextInput.TextAlignment = UITextAlignment.Center;
+						if (this.Customise != null) {
+							this.TextInput = this.Customise(this.TextInput);
+						}
 
+					    this.TextInput.AutocorrectionType = UITextAutocorrectionType.No;
+						this.Elements.Add(this.TextInput);
+
+						this.SecureInput = new UITextField(new CGRect(padding, this.TextInput.Frame.Location.Y + this.TextInput.Frame.Size.Height + padding, width, 30));
+						this.SecureInput.TextAlignment = UITextAlignment.Center;
+						this.SecureInput.SecureTextEntry = true;
+
+						if (this.Customise != null) {
+							this.SecureInput = this.Customise(this.SecureInput);
+						}
+
+						this.SecureInput.AutocorrectionType = UITextAutocorrectionType.No;
+						this.Elements.Add(this.SecureInput);
+
+			             CGRect extendedFrame = this.ActualBox.Frame;
+			             extendedFrame.Height += 45;
+					     this.ActualBox.Frame = extendedFrame;
 					}
 					break;
 				default:
@@ -420,113 +464,62 @@ namespace MKInputBoxView {
 			}
 
             // 
-            //     switch (this.boxType) {
+                 foreach (UITextField element in this.Elements) {
+					element.Layer.BorderColor   = UIColor.FromWhiteAlpha(0.0f,0.1f).CGColor;
+					element.Layer.BorderWidth   = 0.5f;
+                    element.BackgroundColor     = elementBackgroundColor;
+
+				   this.VisualEffectView.ContentView.Add(element);
+                 }
             // 
-            //         case PlainTextInput:
+             var buttonHeight    = 40.0f;
+             var buttonWidth     = this.ActualBox.Frame.Size.Width / 2;
+            
+			// 
+			UIButton cancelButton  = new UIButton(new CGRect(0, this.ActualBox.Frame.Size.Height - buttonHeight, buttonWidth, buttonHeight));
+			cancelButton.SetTitle (!(String.IsNullOrWhiteSpace(this.CancelButtonText)) ? this.CancelButtonText : @"Cancel", UIControlState.Normal);
+			cancelButton.TouchUpInside += (object sender, EventArgs e) => 
+			{
+				CancelButtonTapped();
+			
+			};
+
+
+			cancelButton.TitleLabel.Font = UIFont.SystemFontOfSize(16.0f);
+			cancelButton.SetTitleColor (titleLabelTextColor, UIControlState.Normal);
+			cancelButton.SetTitleColor (UIColor.Gray, UIControlState.Highlighted);
+             cancelButton.BackgroundColor = buttonBackgroundColor;
+
+			cancelButton.Layer.BorderColor = UIColor.FromWhiteAlpha(0.0f,0.1f).CGColor;
+            cancelButton.Layer.BorderWidth = 0.5f;
+			this.VisualEffectView.ContentView.Add(cancelButton);
+
 
             // 
-            // 
-            //         case NumberInput:
+			var submitButton = new UIButton(new CGRect(buttonWidth, this.ActualBox.Frame.Size.Height - buttonHeight, buttonWidth, buttonHeight));
 
-            //             break;
-            // 
-            // 
-            //         case EmailInput:
+			submitButton.SetTitle (!(String.IsNullOrWhiteSpace(this.SubmitButtonText)) ? this.SubmitButtonText : @"OK", UIControlState.Normal);
+			submitButton.TouchUpInside += (object sender, EventArgs e) => 
+			{
+				SubmitButtonTapped();
+			};
 
-            //             break;
+			submitButton.TitleLabel.Font = UIFont.SystemFontOfSize(16.0f);
+
+			submitButton.SetTitleColor (titleLabelTextColor, UIControlState.Normal);
+			submitButton.SetTitleColor (UIColor.Gray, UIControlState.Highlighted);
+
+
+            submitButton.BackgroundColor = buttonBackgroundColor;
+			submitButton.Layer.BorderColor = UIColor.FromWhiteAlpha(0.0f,0.1f).CGColor;
+            submitButton.Layer.BorderWidth = 0.5f;
+
+
+			this.VisualEffectView.ContentView.Add(submitButton);
+
             // 
-            // 
-            //         case SecureTextInput:
-            //             this.TextInput = [[UITextField alloc] initWithFrame:
-            //                               new CGRect(padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding / 1.5, width, 30)];
-            //             this.TextInput.TextAlignment = NSTextAlignmentCenter;
-            //             if (this.customise) {
-            //                 this.TextInput = this.customise(this.TextInput);
-            //             }
-            //             [this.elements addObject:this.TextInput];
-            //             break;
-            // 
-            // 
-            //         case PhoneNumberInput:
-            //             this.TextInput = [[UITextField alloc] initWithFrame:
-            //                               new CGRect(padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding / 1.5, width, 30)];
-            //             this.TextInput.TextAlignment = NSTextAlignmentCenter;
-            //             if (this.customise) {
-            //                 this.TextInput = this.customise(this.TextInput);
-            //             }
-            //             [this.elements addObject:this.TextInput];
-            //             this.TextInput.keyboardType = UIKeyboardTypePhonePad;
-            //             break;
-            // 
-            // 
-            //         case LoginAndPasswordInput:
-            // 
-            //             this.TextInput = [[UITextField alloc] initWithFrame:
-            //                               new CGRect(padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding, width, 30)];
-            //             this.TextInput.TextAlignment = NSTextAlignmentCenter;
-            // 
-            //             if (this.customise) {
-            //                 this.TextInput = this.customise(this.TextInput);
-            //             }
-            //             this.TextInput.autocorrectionType = UITextAutocorrectionTypeNo;
-            //             [this.elements addObject:this.TextInput];
-            // 
-            //             this.secureInput = [[UITextField alloc] initWithFrame:
-            //                                 new CGRect(padding, this.TextInput.Frame.Location.Y + this.TextInput.Frame.Size.Height + padding, width, 30)];
-            //             this.secureInput.TextAlignment = NSTextAlignmentCenter;
-            //             this.secureInput.secureTextEntry = true;
-            // 
-            //             if (this.customise) {
-            //                 this.secureInput = this.customise(this.secureInput);
-            //             }
-            // 
-            //             [this.elements addObject:this.secureInput];
-            // 
-            //             // adjust height!
-            //             CGRect extendedFrame = this.actualBox.Frame;
-            //             extendedFrame.Size.Height += 45;
-            //             this.actualBox.Frame = extendedFrame;
-            //             break;
-            // 
-            //         default:
-            //             NSAssert(NO, @"Boom! You should set a proper MKInputStyle! Bailing out...");
-            //             break;
-            //     }
-            // 
-            //     for (UITextField element in this.elements) {
-            //         element.layer.borderColor   = [UIColor colorWithWhite:0.0f alpha:0.1f].CGColor;
-            //         element.layer.borderWidth   = 0.5;
-            //         element.BackgroundColor     = elementBackgroundColor;
-            //         [this.visualEffectView.contentView addSubview:element];
-            //     }
-            // 
-            //     CGFloat buttonHeight    = 40.0f;
-            //     CGFloat buttonWidth     = this.actualBox.Frame.Size.Width / 2;
-            // 
-            //     UIButton cancelButton  = [[UIButton alloc] initWithFrame:new CGRect(0, this.actualBox.Frame.Size.Height - buttonHeight, buttonWidth, buttonHeight)];
-            //     [cancelButton setTitle:this.cancelButtonText != null ? this.cancelButtonText : @"Cancel" forState:UIControlStateNormal];
-            //     [cancelButton addTarget:this action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-            //     cancelButton.TitleLabel.Font = [UIFont systemFontOfSize:16.0f];
-            //     [cancelButton setTitleColor:titleLabelTextColor forState: UIControlStateNormal];
-            //     [cancelButton setTitleColor:[UIColor grayColor] forState: UIControlStateHighlighted];
-            //     cancelButton.BackgroundColor = buttonBackgroundColor;
-            //     cancelButton.layer.borderColor = [UIColor colorWithWhite: 0.0f alpha: 0.1f].CGColor;
-            //     cancelButton.layer.borderWidth = 0.5;
-            //     [this.visualEffectView.contentView addSubview:cancelButton];
-            // 
-            //     UIButton submitButton = [[UIButton alloc] initWithFrame:new CGRect(buttonWidth, this.actualBox.Frame.Size.Height - buttonHeight, buttonWidth, buttonHeight)];
-            //     [submitButton setTitle:this.submitButtonText != null ? this.submitButtonText : @"OK" forState:UIControlStateNormal];
-            //     [submitButton addTarget:this action:@selector(submitButtonTapped) forControlEvents: UIControlEventTouchUpInside];
-            //     submitButton.TitleLabel.Font = [UIFont systemFontOfSize:16];
-            //     [submitButton setTitleColor:this.blurEffectStyle == UIBlurEffectStyleDark ? [UIColor whiteColor] : [UIColor blackColor] forState: UIControlStateNormal];
-            //     [submitButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
-            //     submitButton.BackgroundColor = buttonBackgroundColor;
-            //     submitButton.layer.borderColor = [UIColor colorWithWhite:0.0f alpha: 0.1f].CGColor;
-            //     submitButton.layer.borderWidth = 0.5;
-            //     [this.visualEffectView.contentView addSubview:submitButton];
-            // 
-            //     this.visualEffectView.Frame = new CGRect(0, 0, this.actualBox.Frame.Size.Width, this.actualBox.Frame.Size.Height + 45);
-            //     [this.actualBox addSubview:this.visualEffectView];
+            this.VisualEffectView.Frame = new CGRect(0, 0, this.ActualBox.Frame.Size.Width, this.ActualBox.Frame.Size.Height + 45);    
+			this.ActualBox.Add(this.VisualEffectView);
 
             this.ActualBox.Center = this.Center;
         }
