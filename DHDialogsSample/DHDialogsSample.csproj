@@ -87,9 +87,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\MKInputBoxView\MKInputBoxView.csproj">
-      <Project>{5028DD2C-1762-4157-BFE0-8BF708CD77F0}</Project>
-      <Name>MKInputBoxView</Name>
+    <ProjectReference Include="..\DHDialogs\DHDialogs.csproj">
+      <Project>{EEB23B63-1AC2-4E05-B707-1CDD066FCDC5}</Project>
+      <Name>DHDialogs</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

@@ -1,39 +1,38 @@
-using System;
+﻿using System;
 using UIKit;
 using Foundation;
-using CoreGraphics;
 using System.Collections.Generic;
+using CoreGraphics;
 
-namespace MKInputBoxView
+namespace DHDialogs
 {
-
-	public class MKInputBoxView : UIView
+	public class DHDialogView : UIView
 	{
-        
+
 		#region Fields
 
 		private String _Title;
-        
+
 		private String _Message;
-        
+
 		private String _SubmitButtonText;
-        
+
 		private String _CancelButtonText;
-        
+
 		private MKInputBoxType _BoxType;
-        
+
 		private nint _NumberOfDecimals;
-        
+
 		private UIBlurEffectStyle _BlurEffectStyle = UIBlurEffectStyle.Light;
-        
+
 		private List<UIControl> _Elements;
-        
+
 		private UIVisualEffectView _VisualEffectView;
-        
+
 		private UITextField _TextInput;
-        
+
 		private UITextField _SecureInput;
-        
+
 		private UIView _ActualBox;
 
 		private NSObject mKeyboardDidSHowNotification;
@@ -214,7 +213,7 @@ namespace MKInputBoxView
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MKInputBoxView.MKInputBoxView"/> class.
 		/// </summary>
-		public MKInputBoxView ()
+		public DHDialogView ()
 			: this (MKInputBoxType.PlainTextInput)
 		{
 
@@ -224,15 +223,15 @@ namespace MKInputBoxView
 		/// Initializes a new instance of the <see cref="MKInputBoxView.MKInputBoxView"/> class.
 		/// </summary>
 		/// <param name="boxType">Box type.</param>
-		public MKInputBoxView (MKInputBoxType boxType)
+		public DHDialogView (MKInputBoxType boxType)
 			: base ()
 		{
 			var actualBoxHeight = 155.0f;
 			var window = UIApplication.SharedApplication.Windows [0];
 			var allFrame = window.Frame;
-         
+
 			var boxFrame = new CGRect (0, 0, Math.Min (325, window.Frame.Size.Width - 50), actualBoxHeight);
-         
+
 			this.Frame = allFrame;
 
 			this.BoxType = boxType;
@@ -243,7 +242,7 @@ namespace MKInputBoxView
 			this.ActualBox.Center = new CGPoint (window.Center.X, window.Center.Y);
 
 			this.Center = new CGPoint (window.Center.X, window.Center.Y);
-				
+
 			this.Add (this.ActualBox);
 
 		}
@@ -265,14 +264,14 @@ namespace MKInputBoxView
 			UIView.Animate (0.3f, () => {
 				this.Alpha = 1.0f;
 			});
-         
+
 			var window = UIApplication.SharedApplication.Windows [0];
 			window.Add (this);
 			window.BringSubviewToFront (this);
 
 			UIDevice.CurrentDevice.BeginGeneratingDeviceOrientationNotifications ();
 
-			         
+
 			NSNotificationCenter.DefaultCenter.AddObserver (new NSString ("UIDeviceOrientationDidChangeNotification"), DeviceOrientationDidChange);
 
 			mKeyboardDidSHowNotification = UIKeyboard.Notifications.ObserveDidShow ((s, e) => {
@@ -284,7 +283,7 @@ namespace MKInputBoxView
 				KeyboardDidHide (e.Notification);
 
 			});
-				
+
 		}
 
 		/// <summary>
@@ -348,7 +347,7 @@ namespace MKInputBoxView
 
 				break;
 			}
-            
+
 
 			this.VisualEffectView = new UIVisualEffectView (UIBlurEffect.FromStyle (style));
 
@@ -404,7 +403,7 @@ namespace MKInputBoxView
 					this.TextInput.EditingChanged += (object sender, EventArgs e) => {
 						TextInputDidChange ();
 					};
-							
+
 				}
 				break;
 			case MKInputBoxType.EmailInput:
@@ -420,7 +419,7 @@ namespace MKInputBoxView
 
 					this.TextInput.KeyboardType = UIKeyboardType.EmailAddress;
 					this.TextInput.AutocorrectionType = UITextAutocorrectionType.No;
-					
+
 				}
 				break;
 			case MKInputBoxType.SecureTextInput:
@@ -494,13 +493,13 @@ namespace MKInputBoxView
 			// 
 			var buttonHeight = 40.0f;
 			var buttonWidth = this.ActualBox.Frame.Size.Width / 2;
-            
+
 			// 
 			UIButton cancelButton = new UIButton (new CGRect (0, this.ActualBox.Frame.Size.Height - buttonHeight, buttonWidth, buttonHeight));
 			cancelButton.SetTitle (!(String.IsNullOrWhiteSpace (this.CancelButtonText)) ? this.CancelButtonText : @"Cancel", UIControlState.Normal);
 			cancelButton.TouchUpInside += (object sender, EventArgs e) => {
 				CancelButtonTapped ();
-			
+
 			};
 
 
@@ -561,7 +560,7 @@ namespace MKInputBoxView
 		/// </summary>
 		private void SubmitButtonTapped ()
 		{
-             
+
 			if (this.OnSubmit != null) {
 				var textValue = this.TextInput.Text;
 				var passValue = this.SecureInput.Text;
@@ -612,7 +611,7 @@ namespace MKInputBoxView
 				this.ActualBox.Frame = frame;
 
 			});
-				
+
 		}
 
 		/// <summary>
@@ -632,7 +631,7 @@ namespace MKInputBoxView
 		private nfloat YCorrection ()
 		{
 			var yCorrection = 115.0f;
-		
+
 
 			if (UIKit.UIDeviceOrientationExtensions.IsLandscape (UIDevice.CurrentDevice.Orientation)) {
 				if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone) {
@@ -659,7 +658,7 @@ namespace MKInputBoxView
 		/// <param name="animated">If set to <c>true</c> animated.</param>
 		private void ResetFrame (Boolean animated)
 		{
-            
+
 			var window = UIApplication.SharedApplication.Windows [0];
 
 			this.Frame = window.Frame;
@@ -705,11 +704,12 @@ namespace MKInputBoxView
 		/// </summary>
 		/// <returns>The of type.</returns>
 		/// <param name="boxType">Box type.</param>
-		public static MKInputBoxView BoxOfType (MKInputBoxType boxType)
+		public static DHDialogView BoxOfType (MKInputBoxType boxType)
 		{
-			return new MKInputBoxView (boxType);
+			return new DHDialogView (boxType);
 		}
 
 		#endregion
 	}
 }
+

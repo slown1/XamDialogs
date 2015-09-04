@@ -1,6 +1,6 @@
 ﻿using System;
-
 using UIKit;
+using DHDialogs;
 
 namespace DHDialogsSample
 {
@@ -26,7 +26,7 @@ namespace DHDialogsSample
 
 		partial void OnShowDialog (UIButton sender)
 		{
-			var dialog = new MKInputBoxView.MKInputBoxView(MKInputBoxView.MKInputBoxType.LoginAndPasswordInput)
+			var dialog = new DHDialogView(DHDialogs.MKInputBoxType.LoginAndPasswordInput)
 			{
 				Title = "Who are you?",
 				Message = "Please enter your username and password to get access to the system.",
