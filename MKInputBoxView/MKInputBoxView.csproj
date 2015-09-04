@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{5028dd2c-1762-4157-bfe0-8bf708cd77f0}</ProjectGuid>
+    <ProjectGuid>{5028DD2C-1762-4157-BFE0-8BF708CD77F0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>MKInputBoxView</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
@@ -67,18 +67,15 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    
   </ItemGroup>
   <ItemGroup>
-    
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Properties\AssemblyInfo.cs" />
-    	 <Compile Include="MKInputBoxView.cs" />
-	 <Compile Include="Enums.cs" />
-
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MKInputBoxView.cs" />
+    <Compile Include="Enums.cs" />
   </ItemGroup>
   <ItemGroup>
-	</ItemGroup>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
