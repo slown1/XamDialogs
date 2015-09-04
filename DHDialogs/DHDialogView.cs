@@ -19,13 +19,13 @@ namespace DHDialogs
 
 		private String _CancelButtonText;
 
-		private MKInputBoxType _BoxType;
+		private DHDialogType _BoxType;
 
 		private nint _NumberOfDecimals;
 
 		private UIBlurEffectStyle _BlurEffectStyle = UIBlurEffectStyle.Light;
 
-		private List<UIControl> _Elements;
+		private List<UIView> _Elements;
 
 		private UIVisualEffectView _VisualEffectView;
 
@@ -42,6 +42,16 @@ namespace DHDialogs
 
 		#region Properties
 
+		/// <summary>
+		/// Gets the content view.
+		/// </summary>
+		/// <value>The content view.</value>
+		protected virtual UIView ContentView {
+			get 
+			{
+				return new UIView (CGRect.Empty);
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets the title.
@@ -99,7 +109,7 @@ namespace DHDialogs
 		/// Gets the type of the box.
 		/// </summary>
 		/// <value>The type of the box.</value>
-		public MKInputBoxType BoxType {
+		public DHDialogType BoxType {
 			get {
 				return this._BoxType;
 			}
@@ -134,7 +144,7 @@ namespace DHDialogs
 			}
 		}
 
-		private List<UIControl> Elements {
+		private List<UIView> Elements {
 			get {
 				return this._Elements;
 			}
@@ -214,7 +224,7 @@ namespace DHDialogs
 		/// Initializes a new instance of the <see cref="MKInputBoxView.MKInputBoxView"/> class.
 		/// </summary>
 		public DHDialogView ()
-			: this (MKInputBoxType.PlainTextInput)
+			: this (DHDialogType.PlainTextInput)
 		{
 
 		}
@@ -223,7 +233,7 @@ namespace DHDialogs
 		/// Initializes a new instance of the <see cref="MKInputBoxView.MKInputBoxView"/> class.
 		/// </summary>
 		/// <param name="boxType">Box type.</param>
-		public DHDialogView (MKInputBoxType boxType)
+		public DHDialogView (DHDialogType boxType)
 			: base ()
 		{
 			var actualBoxHeight = 155.0f;
@@ -312,7 +322,7 @@ namespace DHDialogs
 		private void SetupView ()
 		{
 			// 
-			this.Elements = new List<UIControl> ();
+			this.Elements = new List<UIView> ();
 
 			// 
 			this.ActualBox.Layer.CornerRadius = 4.0f;
@@ -376,7 +386,7 @@ namespace DHDialogs
 			this.VisualEffectView.ContentView.Add (messageLabel);
 
 			switch (this.BoxType) {
-			case MKInputBoxType.PlainTextInput:
+			case DHDialogType.PlainTextInput:
 				{
 					this.TextInput = new UITextField (new CGRect (padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding / 1.5, width, 30));
 					this.TextInput.TextAlignment = UITextAlignment.Center;
@@ -388,7 +398,7 @@ namespace DHDialogs
 					this.TextInput.AutocorrectionType = UITextAutocorrectionType.No;
 				}
 				break;
-			case MKInputBoxType.NumberInput:
+			case DHDialogType.NumberInput:
 				{
 					this.TextInput = new UITextField (new CGRect (padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding / 1.5, width, 30));
 
@@ -406,7 +416,7 @@ namespace DHDialogs
 
 				}
 				break;
-			case MKInputBoxType.EmailInput:
+			case DHDialogType.EmailInput:
 				{
 					this.TextInput = new UITextField (new CGRect (padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding / 1.5, width, 30));
 					this.TextInput.TextAlignment = UITextAlignment.Center;
@@ -422,7 +432,7 @@ namespace DHDialogs
 
 				}
 				break;
-			case MKInputBoxType.SecureTextInput:
+			case DHDialogType.SecureTextInput:
 				{
 					this.TextInput = new UITextField (new CGRect (padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding / 1.5, width, 30));
 					this.TextInput.TextAlignment = UITextAlignment.Center;
@@ -435,7 +445,7 @@ namespace DHDialogs
 					this.Elements.Add (this.TextInput);
 				}
 				break;
-			case MKInputBoxType.PhoneNumberInput:
+			case DHDialogType.PhoneNumberInput:
 				{
 					this.TextInput = new UITextField (new CGRect (padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding / 1.5, width, 30));
 					this.TextInput.TextAlignment = UITextAlignment.Center;
@@ -449,7 +459,7 @@ namespace DHDialogs
 					this.TextInput.KeyboardType = UIKeyboardType.PhonePad;
 				}
 				break;
-			case MKInputBoxType.LoginAndPasswordInput:
+			case DHDialogType.LoginAndPasswordInput:
 				{
 					this.TextInput = new UITextField (new CGRect (padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding / 1.5, width, 30));
 					this.TextInput.TextAlignment = UITextAlignment.Center;
@@ -476,6 +486,24 @@ namespace DHDialogs
 					this.ActualBox.Frame = extendedFrame;
 				}
 				break;
+			case DHDialogType.CustomView:
+				{
+					var aView = this.ContentView;
+
+					var conFrame = aView.Frame;
+					conFrame.Y = messageLabel.Frame.Y + messageLabel.Frame.Height + padding / 1.5f;
+					conFrame.X = (this.ActualBox.Frame.Size.Width / 2) - (conFrame.Width / 2);
+					aView.Frame = conFrame;
+
+
+					this.Elements.Add (aView);
+
+					CGRect extendedFrame = this.ActualBox.Frame;
+					extendedFrame.Height = 110.0f + padding;
+					extendedFrame.Height += aView.Frame.Height;
+					this.ActualBox.Frame = extendedFrame;
+				}
+				break;
 			default:
 				{
 					throw new Exception ("You must specify a box type");
@@ -483,10 +511,14 @@ namespace DHDialogs
 			}
 
 			// 
-			foreach (UITextField element in this.Elements) {
-				element.Layer.BorderColor = UIColor.FromWhiteAlpha (0.0f, 0.1f).CGColor;
-				element.Layer.BorderWidth = 0.5f;
-				element.BackgroundColor = elementBackgroundColor;
+			foreach (UIView element in this.Elements) 
+			{
+				if (element is UITextField) 
+				{
+					element.Layer.BorderColor = UIColor.FromWhiteAlpha (0.0f, 0.1f).CGColor;
+					element.Layer.BorderWidth = 0.5f;
+					element.BackgroundColor = elementBackgroundColor;
+				}
 
 				this.VisualEffectView.ContentView.Add (element);
 			}
@@ -640,7 +672,7 @@ namespace DHDialogs
 					yCorrection = 100.0f;
 				}
 
-				if (this.BoxType == MKInputBoxType.LoginAndPasswordInput) {
+				if (this.BoxType == DHDialogType.LoginAndPasswordInput) {
 					yCorrection += 45.0f;
 				}
 			} else {
@@ -704,7 +736,7 @@ namespace DHDialogs
 		/// </summary>
 		/// <returns>The of type.</returns>
 		/// <param name="boxType">Box type.</param>
-		public static DHDialogView BoxOfType (MKInputBoxType boxType)
+		public static DHDialogView BoxOfType (DHDialogType boxType)
 		{
 			return new DHDialogView (boxType);
 		}

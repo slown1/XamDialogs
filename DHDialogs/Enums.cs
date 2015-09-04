@@ -2,10 +2,11 @@
 
 namespace DHDialogs {
 
+
 	/// <summary>
-	/// MK input box type.
+	/// Type of dialog
 	/// </summary>
-	public enum MKInputBoxType {
+	public enum DHDialogType {
 
 		PlainTextInput,
 		NumberInput,
@@ -13,5 +14,6 @@ namespace DHDialogs {
 		EmailInput,
 		SecureTextInput,
 		LoginAndPasswordInput,
+		CustomView,
 	}
 }

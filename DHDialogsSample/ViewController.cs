@@ -26,7 +26,7 @@ namespace DHDialogsSample
 
 		partial void OnShowDialog (UIButton sender)
 		{
-			var dialog = new DHDialogView(DHDialogs.MKInputBoxType.LoginAndPasswordInput)
+			var dialog = new DHCustomViewDialog()
 			{
 				Title = "Who are you?",
 				Message = "Please enter your username and password to get access to the system.",
