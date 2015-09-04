@@ -2,6 +2,7 @@
 using UIKit;
 using CoreGraphics;
 using Foundation;
+using System.Threading.Tasks;
 
 namespace DHDialogs
 {
@@ -104,6 +105,53 @@ namespace DHDialogs
 		protected override void HandleSubmit ()
 		{
 			OnSelectedDateChanged (this, SelectedDate);
+		}
+
+		#endregion
+
+		#region static Methods
+
+		/// <summary>
+		/// Shows the dialog.
+		/// </summary>
+		/// <returns>The dialog.</returns>
+		/// <param name="title">Title.</param>
+		/// <param name="message">Message.</param>
+		/// <param name="selectedDate">Selected date.</param>
+		/// <param name="effectStyle">Effect style.</param>
+		public static Task<DateTime?> ShowDialog(UIDatePickerMode mode, String title, String message, DateTime? selectedDate = null, UIBlurEffectStyle effectStyle = UIBlurEffectStyle.ExtraLight)
+		{
+			var tcs = new TaskCompletionSource<DateTime?> ();
+
+
+			new NSObject ().BeginInvokeOnMainThread (() => {
+
+				var dialog = new DHDatePickerDialog(mode)
+				{
+					Title = title,
+					Message = message,
+					BlurEffectStyle = effectStyle,
+					ConstantUpdates = false,
+				};
+
+				if (selectedDate.HasValue)
+					dialog.SelectedDate = selectedDate.Value;
+
+				dialog.OnCancel += (object sender, EventArgs e) => 
+				{
+					tcs.SetResult(null);
+				};
+
+				dialog.OnSelectedDateChanged += (object s, DateTime e) => 
+				{
+					tcs.SetResult(dialog.SelectedDate);
+				};
+
+				dialog.Show();
+
+			});
+
+			return tcs.Task;
 		}
 
 		#endregion

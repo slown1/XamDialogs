@@ -25,7 +25,7 @@ namespace DHDialogsSample
 			// Release any cached data, images, etc that aren't in use.
 		}
 
-		partial void OnShowDialog (UIButton sender)
+		async partial void OnShowDialog (UIButton sender)
 		{
 			var dialog = new DHDatePickerDialog(UIDatePickerMode.DateAndTime)
 			{
@@ -38,6 +38,8 @@ namespace DHDialogsSample
 				
 			dialog.SelectedDate = new DateTime(1978,6,30,7,30,00,00);
 
+			dialog.ButtonMode = ButtonMode.Ok;
+
 			dialog.ValidateSubmit = (DateTime data)=>
 			{
 				return true;
@@ -49,6 +51,11 @@ namespace DHDialogsSample
 			};
 
 			dialog.Show();
+
+//			var result = await DHDatePickerDialog.ShowDialog(UIDatePickerMode.DateAndTime,"Date of Birth","Select your Date of Birth", new DateTime(1978,6,30,7,30,00,00) );
+//
+//			Console.WriteLine(result);
+
 		}
 	}
 }

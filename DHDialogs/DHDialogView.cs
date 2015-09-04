@@ -161,6 +161,11 @@ namespace DHDialogs
 			get;
 			set;
 		}
+
+		/// <summary>
+		/// Occurs when on cancel.
+		/// </summary>
+		public event EventHandler OnCancel = delegate {};
 		#endregion
 
 		#region Constructors
@@ -306,6 +311,7 @@ namespace DHDialogs
 			titleLabel.TextAlignment = UITextAlignment.Center;
 			titleLabel.TextColor = titleLabelTextColor;
 
+
 			this.VisualEffectView.ContentView.Add (titleLabel);
 
 			var messageLabel = new UILabel (new CGRect (padding, padding + titleLabel.Frame.Size.Height + 5, width, 31.5));
@@ -314,8 +320,12 @@ namespace DHDialogs
 			messageLabel.Text = this.Message;
 			messageLabel.TextAlignment = UITextAlignment.Center;
 			messageLabel.TextColor = messageLabelTextColor;
-
 			messageLabel.SizeToFit ();
+
+			//center the frame
+			var mFrame = messageLabel.Frame;
+			mFrame.Width = width; 
+			messageLabel.Frame = mFrame;
 
 			this.VisualEffectView.ContentView.Add (messageLabel);
 
@@ -347,45 +357,102 @@ namespace DHDialogs
 			var buttonHeight = 40.0f;
 			var buttonWidth = this.ActualBox.Frame.Size.Width / 2;
 
-			// 
-			UIButton cancelButton = new UIButton (new CGRect (0, this.ActualBox.Frame.Size.Height - buttonHeight, buttonWidth, buttonHeight));
-			cancelButton.SetTitle (!(String.IsNullOrWhiteSpace (this.CancelButtonText)) ? this.CancelButtonText : @"Cancel", UIControlState.Normal);
-			cancelButton.TouchUpInside += (object sender, EventArgs e) => {
-				CancelButtonTapped ();
 
-			};
+			switch (ButtonMode) 
+			{
 
+			case ButtonMode.OkAndCancel:
+				{
+					// 
+					UIButton cancelButton = new UIButton (new CGRect (0, this.ActualBox.Frame.Size.Height - buttonHeight, buttonWidth, buttonHeight));
+					cancelButton.SetTitle (!(String.IsNullOrWhiteSpace (this.CancelButtonText)) ? this.CancelButtonText : @"Cancel", UIControlState.Normal);
+					cancelButton.TouchUpInside += (object sender, EventArgs e) => {
+						CancelButtonTapped ();
 
-			cancelButton.TitleLabel.Font = UIFont.SystemFontOfSize (16.0f);
-			cancelButton.SetTitleColor (titleLabelTextColor, UIControlState.Normal);
-			cancelButton.SetTitleColor (UIColor.Gray, UIControlState.Highlighted);
-			cancelButton.BackgroundColor = buttonBackgroundColor;
-
-			cancelButton.Layer.BorderColor = UIColor.FromWhiteAlpha (0.0f, 0.1f).CGColor;
-			cancelButton.Layer.BorderWidth = 0.5f;
-			this.VisualEffectView.ContentView.Add (cancelButton);
+					};
 
 
-			// 
-			var submitButton = new UIButton (new CGRect (buttonWidth, this.ActualBox.Frame.Size.Height - buttonHeight, buttonWidth, buttonHeight));
+					cancelButton.TitleLabel.Font = UIFont.SystemFontOfSize (16.0f);
+					cancelButton.SetTitleColor (titleLabelTextColor, UIControlState.Normal);
+					cancelButton.SetTitleColor (UIColor.Gray, UIControlState.Highlighted);
+					cancelButton.BackgroundColor = buttonBackgroundColor;
 
-			submitButton.SetTitle (!(String.IsNullOrWhiteSpace (this.SubmitButtonText)) ? this.SubmitButtonText : @"OK", UIControlState.Normal);
-			submitButton.TouchUpInside += (object sender, EventArgs e) => {
-				SubmitButtonTapped ();
-			};
-
-			submitButton.TitleLabel.Font = UIFont.SystemFontOfSize (16.0f);
-
-			submitButton.SetTitleColor (titleLabelTextColor, UIControlState.Normal);
-			submitButton.SetTitleColor (UIColor.Gray, UIControlState.Highlighted);
+					cancelButton.Layer.BorderColor = UIColor.FromWhiteAlpha (0.0f, 0.1f).CGColor;
+					cancelButton.Layer.BorderWidth = 0.5f;
+					this.VisualEffectView.ContentView.Add (cancelButton);
 
 
-			submitButton.BackgroundColor = buttonBackgroundColor;
-			submitButton.Layer.BorderColor = UIColor.FromWhiteAlpha (0.0f, 0.1f).CGColor;
-			submitButton.Layer.BorderWidth = 0.5f;
+					// 
+					var submitButton = new UIButton (new CGRect (buttonWidth, this.ActualBox.Frame.Size.Height - buttonHeight, buttonWidth, buttonHeight));
+
+					submitButton.SetTitle (!(String.IsNullOrWhiteSpace (this.SubmitButtonText)) ? this.SubmitButtonText : @"OK", UIControlState.Normal);
+					submitButton.TouchUpInside += (object sender, EventArgs e) => {
+						SubmitButtonTapped ();
+					};
+
+					submitButton.TitleLabel.Font = UIFont.SystemFontOfSize (16.0f);
+
+					submitButton.SetTitleColor (titleLabelTextColor, UIControlState.Normal);
+					submitButton.SetTitleColor (UIColor.Gray, UIControlState.Highlighted);
 
 
-			this.VisualEffectView.ContentView.Add (submitButton);
+					submitButton.BackgroundColor = buttonBackgroundColor;
+					submitButton.Layer.BorderColor = UIColor.FromWhiteAlpha (0.0f, 0.1f).CGColor;
+					submitButton.Layer.BorderWidth = 0.5f;
+
+
+					this.VisualEffectView.ContentView.Add (submitButton);
+				}
+				break;
+			case ButtonMode.Ok:
+				{
+					
+					var submitButton = new UIButton (new CGRect (0, this.ActualBox.Frame.Size.Height - buttonHeight, this.ActualBox.Frame.Size.Width, buttonHeight));
+
+					submitButton.SetTitle (!(String.IsNullOrWhiteSpace (this.SubmitButtonText)) ? this.SubmitButtonText : @"OK", UIControlState.Normal);
+					submitButton.TouchUpInside += (object sender, EventArgs e) => {
+						SubmitButtonTapped ();
+					};
+
+					submitButton.TitleLabel.Font = UIFont.SystemFontOfSize (16.0f);
+
+					submitButton.SetTitleColor (titleLabelTextColor, UIControlState.Normal);
+					submitButton.SetTitleColor (UIColor.Gray, UIControlState.Highlighted);
+
+
+					submitButton.BackgroundColor = buttonBackgroundColor;
+					submitButton.Layer.BorderColor = UIColor.FromWhiteAlpha (0.0f, 0.1f).CGColor;
+					submitButton.Layer.BorderWidth = 0.5f;
+
+
+					this.VisualEffectView.ContentView.Add (submitButton);
+
+				}
+				break;
+			case ButtonMode.Cancel:
+				{
+					UIButton cancelButton = new UIButton (new CGRect (0, this.ActualBox.Frame.Size.Height - buttonHeight, this.ActualBox.Frame.Size.Width, buttonHeight));
+					cancelButton.SetTitle (!(String.IsNullOrWhiteSpace (this.CancelButtonText)) ? this.CancelButtonText : @"Cancel", UIControlState.Normal);
+					cancelButton.TouchUpInside += (object sender, EventArgs e) => {
+						CancelButtonTapped ();
+
+					};
+
+
+					cancelButton.TitleLabel.Font = UIFont.SystemFontOfSize (16.0f);
+					cancelButton.SetTitleColor (titleLabelTextColor, UIControlState.Normal);
+					cancelButton.SetTitleColor (UIColor.Gray, UIControlState.Highlighted);
+					cancelButton.BackgroundColor = buttonBackgroundColor;
+
+					cancelButton.Layer.BorderColor = UIColor.FromWhiteAlpha (0.0f, 0.1f).CGColor;
+					cancelButton.Layer.BorderWidth = 0.5f;
+					this.VisualEffectView.ContentView.Add (cancelButton);
+
+				}
+				break;
+
+			}
+
 
 			// 
 			this.VisualEffectView.Frame = new CGRect (0, 0, this.ActualBox.Frame.Size.Width, this.ActualBox.Frame.Size.Height + 45);    
@@ -403,6 +470,8 @@ namespace DHDialogs
 			HandleCancel ();
 
 			this.Hide ();
+
+			OnCancel (this, null);
 		}
 
 		/// <summary>
