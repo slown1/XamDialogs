@@ -15,5 +15,17 @@ namespace DHDialogs {
 		SecureTextInput,
 		LoginAndPasswordInput,
 		CustomView,
+		DatePicker,
+		PickerView,
+	}
+
+	/// <summary>
+	/// Button mode.
+	/// </summary>
+	public enum ButtonMode
+	{
+		OkAndCancel,
+		Ok,
+		Cancel,
 	}
 }

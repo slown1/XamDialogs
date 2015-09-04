@@ -1,6 +1,7 @@
 ﻿using System;
 using UIKit;
 using DHDialogs;
+using Foundation;
 
 namespace DHDialogsSample
 {
@@ -26,41 +27,21 @@ namespace DHDialogsSample
 
 		partial void OnShowDialog (UIButton sender)
 		{
-			var dialog = new DHCustomViewDialog()
+			var dialog = new DHDatePickerDialog(UIDatePickerMode.DateAndTime)
 			{
 				Title = "Who are you?",
 				Message = "Please enter your username and password to get access to the system.",
 				BlurEffectStyle = UIBlurEffectStyle.ExtraLight,
 				CancelButtonText = "Not yet",
-
+				ConstantUpdates = false,
 			};
+				
+			dialog.SelectedDate = new DateTime(1978,6,30,7,30,00,00);
 
-			//     [inputBoxView setTitle:@"Who are you?"];
-			//     [inputBoxView setMessage:@"Please enter your username and password to get access to the system."];
-			//     [inputBoxView setBlurEffectStyle:UIBlurEffectStyleExtraLight];
-			// 
-			//     [inputBoxView setCancelButtonText:@"Not yet"];
-			// 
-			//     inputBoxView.customise = ^(UITextField textField) {
-			//         textField.placeholder = @"Your eMail address";
-			//         if (textField.secureTextEntry) {
-			//             textField.placeholder = @"Your password";
-			//         }
-			//         textField.TextColor = [UIColor blackColor];
-			//         textField.layer.cornerRadius = 4.0f;
-			//         return textField;
-			//     };
-			// 
-			//     inputBoxView.onSubmit = ^(NSString value1, NSString value2) {
-			//         NSLog(@"user: %@", value1);
-			//         NSLog(@"pass: %@", value2);
-			//     };
-			// 
-			//     inputBoxView.onCancel = ^{
-			//         NSLog(@"Cancel!");
-			//     };
-			// 
-			//     [inputBoxView show];
+			dialog.OnSelectedDateChanged += (object s, DateTime e) => 
+			{
+				Console.WriteLine(e);
+			};
 
 			dialog.Show();
 		}

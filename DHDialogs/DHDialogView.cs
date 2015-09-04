@@ -6,7 +6,7 @@ using CoreGraphics;
 
 namespace DHDialogs
 {
-	public class DHDialogView : UIView
+	public abstract class DHDialogView : UIView
 	{
 
 		#region Fields
@@ -46,12 +46,7 @@ namespace DHDialogs
 		/// Gets the content view.
 		/// </summary>
 		/// <value>The content view.</value>
-		protected virtual UIView ContentView {
-			get 
-			{
-				return new UIView (CGRect.Empty);
-			}
-		}
+		protected abstract UIView ContentView {get;}
 
 		/// <summary>
 		/// Gets or sets the title.
@@ -117,20 +112,7 @@ namespace DHDialogs
 				this._BoxType = value;
 			}
 		}
-
-		/// <summary>
-		/// Gets or sets the number of decimals.
-		/// </summary>
-		/// <value>The number of decimals.</value>
-		public nint NumberOfDecimals {
-			get {
-				return this._NumberOfDecimals;
-			}
-			set {
-				this._NumberOfDecimals = value;
-			}
-		}
-
+			
 		/// <summary>
 		/// Gets or sets the blur effect style.
 		/// </summary>
@@ -143,16 +125,7 @@ namespace DHDialogs
 				this._BlurEffectStyle = value;
 			}
 		}
-
-		private List<UIView> Elements {
-			get {
-				return this._Elements;
-			}
-			set {
-				this._Elements = value;
-			}
-		}
-
+			
 		private UIVisualEffectView VisualEffectView {
 			get {
 				return this._VisualEffectView;
@@ -161,25 +134,7 @@ namespace DHDialogs
 				this._VisualEffectView = value;
 			}
 		}
-
-		private UITextField TextInput {
-			get {
-				return this._TextInput;
-			}
-			set {
-				this._TextInput = value;
-			}
-		}
-
-		private UITextField SecureInput {
-			get {
-				return this._SecureInput;
-			}
-			set {
-				this._SecureInput = value;
-			}
-		}
-
+			
 		private UIView ActualBox {
 			get {
 				return this._ActualBox;
@@ -188,46 +143,27 @@ namespace DHDialogs
 				this._ActualBox = value;
 			}
 		}
-
+			
 		/// <summary>
-		/// Gets or sets the on cancel.
+		/// Gets or sets a value indicating whether this <see cref="DHDialogs.DHDialogView"/> constantly update any value changes
 		/// </summary>
-		/// <value>The on cancel.</value>
-		public Action OnCancel {
+		/// <value><c>true</c> if constant updates; otherwise, <c>false</c>.</value>
+		public bool ConstantUpdates {
 			get;
 			set;
 		}
 
 		/// <summary>
-		/// Gets or sets the on submit.
+		/// Gets or sets the button mode.
 		/// </summary>
-		/// <value>The on submit.</value>
-		public Func<object[], bool> OnSubmit {
+		/// <value>The button mode.</value>
+		public ButtonMode ButtonMode {
 			get;
 			set;
 		}
-
-		/// <summary>
-		/// Gets or sets the customise.
-		/// </summary>
-		/// <value>The customise.</value>
-		public Func<UITextField, UITextField> Customise {
-			get;
-			set;
-		}
-
 		#endregion
 
 		#region Constructors
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MKInputBoxView.MKInputBoxView"/> class.
-		/// </summary>
-		public DHDialogView ()
-			: this (DHDialogType.PlainTextInput)
-		{
-
-		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MKInputBoxView.MKInputBoxView"/> class.
@@ -321,9 +257,7 @@ namespace DHDialogs
 		/// </summary>
 		private void SetupView ()
 		{
-			// 
-			this.Elements = new List<UIView> ();
-
+			
 			// 
 			this.ActualBox.Layer.CornerRadius = 4.0f;
 			this.ActualBox.Layer.MasksToBounds = true;
@@ -385,133 +319,21 @@ namespace DHDialogs
 
 			this.VisualEffectView.ContentView.Add (messageLabel);
 
-			switch (this.BoxType) {
-			case DHDialogType.PlainTextInput:
-				{
-					this.TextInput = new UITextField (new CGRect (padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding / 1.5, width, 30));
-					this.TextInput.TextAlignment = UITextAlignment.Center;
-					if (this.Customise != null) {
-						this.TextInput = this.Customise (this.TextInput);
-					}
-					this.Elements.Add (this.TextInput);
+			var aView = this.ContentView;
 
-					this.TextInput.AutocorrectionType = UITextAutocorrectionType.No;
-				}
-				break;
-			case DHDialogType.NumberInput:
-				{
-					this.TextInput = new UITextField (new CGRect (padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding / 1.5, width, 30));
+			var conFrame = aView.Frame;
+			conFrame.Y = messageLabel.Frame.Y + messageLabel.Frame.Height + padding / 1.5f;
+			conFrame.X = (this.ActualBox.Frame.Size.Width / 2) - (conFrame.Width / 2);
+			aView.Frame = conFrame;
 
-					if (this.Customise != null) {
-						this.TextInput = this.Customise (this.TextInput);
-					}
-					this.Elements.Add (this.TextInput);
+			CGRect extendedFrame = this.ActualBox.Frame;
+			extendedFrame.Height = 110.0f + padding;
+			extendedFrame.Height += aView.Frame.Height;
+			this.ActualBox.Frame = extendedFrame;
 
-
-					this.TextInput.KeyboardType = UIKeyboardType.NumberPad;
-
-					this.TextInput.EditingChanged += (object sender, EventArgs e) => {
-						TextInputDidChange ();
-					};
-
-				}
-				break;
-			case DHDialogType.EmailInput:
-				{
-					this.TextInput = new UITextField (new CGRect (padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding / 1.5, width, 30));
-					this.TextInput.TextAlignment = UITextAlignment.Center;
-
-					if (this.Customise != null) {
-						this.TextInput = this.Customise (this.TextInput);
-					}
-
-					this.Elements.Add (this.TextInput);
-
-					this.TextInput.KeyboardType = UIKeyboardType.EmailAddress;
-					this.TextInput.AutocorrectionType = UITextAutocorrectionType.No;
-
-				}
-				break;
-			case DHDialogType.SecureTextInput:
-				{
-					this.TextInput = new UITextField (new CGRect (padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding / 1.5, width, 30));
-					this.TextInput.TextAlignment = UITextAlignment.Center;
-					this.TextInput.SecureTextEntry = true;
-
-					if (this.Customise != null) {
-						this.TextInput = this.Customise (this.TextInput);
-					}
-
-					this.Elements.Add (this.TextInput);
-				}
-				break;
-			case DHDialogType.PhoneNumberInput:
-				{
-					this.TextInput = new UITextField (new CGRect (padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding / 1.5, width, 30));
-					this.TextInput.TextAlignment = UITextAlignment.Center;
-
-					if (this.Customise != null) {
-						this.TextInput = this.Customise (this.TextInput);
-					}
-
-					this.Elements.Add (this.TextInput);
-
-					this.TextInput.KeyboardType = UIKeyboardType.PhonePad;
-				}
-				break;
-			case DHDialogType.LoginAndPasswordInput:
-				{
-					this.TextInput = new UITextField (new CGRect (padding, messageLabel.Frame.Location.Y + messageLabel.Frame.Size.Height + padding / 1.5, width, 30));
-					this.TextInput.TextAlignment = UITextAlignment.Center;
-					if (this.Customise != null) {
-						this.TextInput = this.Customise (this.TextInput);
-					}
-
-					this.TextInput.AutocorrectionType = UITextAutocorrectionType.No;
-					this.Elements.Add (this.TextInput);
-
-					this.SecureInput = new UITextField (new CGRect (padding, this.TextInput.Frame.Location.Y + this.TextInput.Frame.Size.Height + padding, width, 30));
-					this.SecureInput.TextAlignment = UITextAlignment.Center;
-					this.SecureInput.SecureTextEntry = true;
-
-					if (this.Customise != null) {
-						this.SecureInput = this.Customise (this.SecureInput);
-					}
-
-					this.SecureInput.AutocorrectionType = UITextAutocorrectionType.No;
-					this.Elements.Add (this.SecureInput);
-
-					CGRect extendedFrame = this.ActualBox.Frame;
-					extendedFrame.Height += 45;
-					this.ActualBox.Frame = extendedFrame;
-				}
-				break;
-			case DHDialogType.CustomView:
-				{
-					var aView = this.ContentView;
-
-					var conFrame = aView.Frame;
-					conFrame.Y = messageLabel.Frame.Y + messageLabel.Frame.Height + padding / 1.5f;
-					conFrame.X = (this.ActualBox.Frame.Size.Width / 2) - (conFrame.Width / 2);
-					aView.Frame = conFrame;
-
-
-					this.Elements.Add (aView);
-
-					CGRect extendedFrame = this.ActualBox.Frame;
-					extendedFrame.Height = 110.0f + padding;
-					extendedFrame.Height += aView.Frame.Height;
-					this.ActualBox.Frame = extendedFrame;
-				}
-				break;
-			default:
-				{
-					throw new Exception ("You must specify a box type");
-				}
-			}
-
+			this.VisualEffectView.ContentView.Add (aView);
 			// 
-			foreach (UIView element in this.Elements) 
+			foreach (UIView element in aView.Subviews) 
 			{
 				if (element is UITextField) 
 				{
@@ -520,7 +342,6 @@ namespace DHDialogs
 					element.BackgroundColor = elementBackgroundColor;
 				}
 
-				this.VisualEffectView.ContentView.Add (element);
 			}
 			// 
 			var buttonHeight = 40.0f;
@@ -573,16 +394,13 @@ namespace DHDialogs
 			this.ActualBox.Center = this.Center;
 		}
 
-
 		/// <summary>
 		/// Determines whether this instance cancel button tapped.
 		/// </summary>
 		/// <returns><c>true</c> if this instance cancel button tapped; otherwise, <c>false</c>.</returns>
 		private void CancelButtonTapped ()
 		{
-			if (this.OnCancel != null) {
-				this.OnCancel ();
-			}
+			HandleCancel ();
 
 			this.Hide ();
 		}
@@ -592,33 +410,14 @@ namespace DHDialogs
 		/// </summary>
 		private void SubmitButtonTapped ()
 		{
-
-			if (this.OnSubmit != null) {
-				var textValue = this.TextInput.Text;
-				var passValue = this.SecureInput.Text;
-
-				if (this.OnSubmit (new object[]{ textValue, passValue })) {
-					Hide ();
-				}
-			} else {
+			if (CanSubmit ()) 
+			{
+				HandleSubmit ();
 				Hide ();
 			}
 
 		}
-
-		/// <summary>
-		/// Texts the input did change.
-		/// </summary>
-		private void TextInputDidChange ()
-		{
-			var sText = this.TextInput.Text;
-			sText = sText.Replace (@".", ""); 
-			var power = Math.Pow (10.0f, (double)this.NumberOfDecimals);
-			var number = Convert.ToDouble (sText) / power;
-
-			this.TextInput.Text = DisplayNDecimal (number, (int)this.NumberOfDecimals);
-		}
-
+			
 		/// <summary>
 		/// Devices the orientation did change.
 		/// </summary>
@@ -727,6 +526,11 @@ namespace DHDialogs
 			return dbValue.ToString (decimalPoints);
 		}
 
+		protected abstract bool CanSubmit ();
+
+		protected abstract void HandleCancel ();
+
+		protected abstract void HandleSubmit ();
 		#endregion
 
 		#region Static Methods
@@ -738,7 +542,7 @@ namespace DHDialogs
 		/// <param name="boxType">Box type.</param>
 		public static DHDialogView BoxOfType (DHDialogType boxType)
 		{
-			return new DHDialogView (boxType);
+			return null;
 		}
 
 		#endregion
