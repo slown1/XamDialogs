@@ -2,6 +2,7 @@
 using UIKit;
 using DHDialogs;
 using Foundation;
+using System.Collections.Generic;
 
 namespace DHDialogsSample
 {
@@ -27,7 +28,32 @@ namespace DHDialogsSample
 
 		async partial void OnShowDialog (UIButton sender)
 		{
-			var dialog = new DHDatePickerDialog(UIDatePickerMode.DateAndTime)
+//			var dialog = new DHDatePickerDialog(UIDatePickerMode.DateAndTime)
+//			{
+//				Title = "Who are you?",
+//				Message = "Please enter your username and password to get access to the system.",
+//				BlurEffectStyle = UIBlurEffectStyle.ExtraLight,
+//				CancelButtonText = "Not yet",
+//				ConstantUpdates = false,
+//			};
+//				
+//			dialog.SelectedDate = new DateTime(1978,6,30,7,30,00,00);
+//
+//			dialog.ButtonMode = ButtonMode.Ok;
+//
+//			dialog.ValidateSubmit = (DateTime data)=>
+//			{
+//				return true;
+//			};
+//
+//			dialog.OnSelectedDateChanged += (object s, DateTime e) => 
+//			{
+//				Console.WriteLine(e);
+//			};
+//
+//			dialog.Show();
+
+			var dialog = new DHSimplePickerDialog(new List<String>(){"Dave","Rob","Jamie"})
 			{
 				Title = "Who are you?",
 				Message = "Please enter your username and password to get access to the system.",
@@ -35,17 +61,8 @@ namespace DHDialogsSample
 				CancelButtonText = "Not yet",
 				ConstantUpdates = false,
 			};
-				
-			dialog.SelectedDate = new DateTime(1978,6,30,7,30,00,00);
 
-			dialog.ButtonMode = ButtonMode.Ok;
-
-			dialog.ValidateSubmit = (DateTime data)=>
-			{
-				return true;
-			};
-
-			dialog.OnSelectedDateChanged += (object s, DateTime e) => 
+			dialog.OnSelectedItemChanged += (object s, string e) => 
 			{
 				Console.WriteLine(e);
 			};

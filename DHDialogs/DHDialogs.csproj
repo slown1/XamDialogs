@@ -44,7 +44,7 @@
     <Compile Include="Enums.cs" />
     <Compile Include="DHCustomViewDialog.cs" />
     <Compile Include="DHDatePickerDialog.cs" />
-    <Compile Include="DHPickerViewDialog.cs" />
+    <Compile Include="DHSimplePickerDialog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
