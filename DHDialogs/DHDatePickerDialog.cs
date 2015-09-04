@@ -47,6 +47,11 @@ namespace DHDialogs
 		/// </summary>
 		public event EventHandler<DateTime> OnSelectedDateChanged = delegate {		};
 
+		/// <summary>
+		/// Gets or sets the validation function to call when submitting
+		/// </summary>
+		/// <value>The validate submit.</value>
+		public Func<DateTime,bool> ValidateSubmit { get; set; }
 
 		#endregion
 
@@ -90,6 +95,9 @@ namespace DHDialogs
 
 		protected override bool CanSubmit ()
 		{
+			if (ValidateSubmit != null)
+				return ValidateSubmit (SelectedDate);
+			
 			return true;
 		}
 

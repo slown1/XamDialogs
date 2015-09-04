@@ -38,6 +38,11 @@ namespace DHDialogsSample
 				
 			dialog.SelectedDate = new DateTime(1978,6,30,7,30,00,00);
 
+			dialog.ValidateSubmit = (DateTime data)=>
+			{
+				return true;
+			};
+
 			dialog.OnSelectedDateChanged += (object s, DateTime e) => 
 			{
 				Console.WriteLine(e);
