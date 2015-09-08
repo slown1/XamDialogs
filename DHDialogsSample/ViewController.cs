@@ -53,31 +53,35 @@ namespace DHDialogsSample
 //
 //			dialog.Show();
 
-			var dialog = new DHSimplePickerDialog(new List<String>(){"Dave","Rob","Jamie"})
-			{
-				Title = "Who are you?",
-				Message = "Please enter your username and password to get access to the system.",
-				BlurEffectStyle = UIBlurEffectStyle.ExtraLight,
-				CancelButtonText = "Not yet",
-				ConstantUpdates = false,
-			};
-
-			//dialog.BlurEffectStyle = UIBlurEffectStyle.Dark;
-
-			//dialog.BackingColor = UIColor.FromWhiteAlpha(0.1f,0.5f);
-
-			dialog.OnSelectedItemChanged += (object s, string e) => 
-			{
-				Console.WriteLine(e);
-			};
-
-			dialog.SelectedItem = "Rob";
-
-			dialog.Show();
+//			var dialog = new DHSimplePickerDialog(new List<String>(){"Dave","Rob","Jamie"})
+//			{
+//				Title = "Who are you?",
+//				Message = "Please enter your username and password to get access to the system.",
+//				BlurEffectStyle = UIBlurEffectStyle.ExtraLight,
+//				CancelButtonText = "Not yet",
+//				ConstantUpdates = false,
+//			};
+//
+//			//dialog.BlurEffectStyle = UIBlurEffectStyle.Dark;
+//
+//			//dialog.BackingColor = UIColor.FromWhiteAlpha(0.1f,0.5f);
+//
+//			dialog.OnSelectedItemChanged += (object s, string e) => 
+//			{
+//				Console.WriteLine(e);
+//			};
+//
+//			dialog.SelectedItem = "Rob";
+//
+//			dialog.Show();
 
 //			var result = await DHDatePickerDialog.ShowDialog(UIDatePickerMode.DateAndTime,"Date of Birth","Select your Date of Birth", new DateTime(1978,6,30,7,30,00,00) );
 //
 //			Console.WriteLine(result);
+
+
+			var result = await DHSimplePickerDialog.ShowDialog("Who are you?","Select your name", new List<String>(){"Dave","Rob","Jamie"}, "Rob");
+			Console.WriteLine(result);
 
 		}
 	}

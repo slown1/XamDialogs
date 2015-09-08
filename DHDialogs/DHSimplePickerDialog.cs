@@ -3,12 +3,21 @@ using UIKit;
 using CoreGraphics;
 using System.Collections.Generic;
 using Foundation;
+using System.Threading.Tasks;
 
 namespace DHDialogs
 {
+	/// <summary>
+	/// DH simple picker dialog.
+	/// </summary>
 	public class DHSimplePickerDialog : DHDialogView
 	{
+
+		#region Fields
+
 		private UIPickerView mPicker;
+
+		#endregion
 
 		#region Properties
 
@@ -52,6 +61,8 @@ namespace DHDialogs
 
 		#endregion
 
+		#region Constructors
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DHDialogs.DHSimplePickerDialog"/> class.
 		/// </summary>
@@ -63,6 +74,8 @@ namespace DHDialogs
 			mPicker.Model = new SimplePickerModel (this, items);
 
 		}
+
+		#endregion
 
 		#region Methods
 
@@ -84,8 +97,6 @@ namespace DHDialogs
 			SelectionDidChange(SelectedItem);
 		}
 
-		#endregion
-
 		/// <summary>
 		/// Called when the selection did change
 		/// </summary>
@@ -94,6 +105,57 @@ namespace DHDialogs
 		{
 			OnSelectedItemChanged (this, item);
 		}
+
+		#endregion
+
+		#region static Methods
+
+		/// <summary>
+		/// Shows the dialog.
+		/// </summary>
+		/// <returns>The dialog.</returns>
+		/// <param name="mode">Mode.</param>
+		/// <param name="title">Title.</param>
+		/// <param name="message">Message.</param>
+		/// <param name="items">Items.</param>
+		/// <param name="selectedItem">Selected item.</param>
+		/// <param name="effectStyle">Effect style.</param>
+		public static Task<String> ShowDialog(String title, String message, List<String> items, String selectedItem = null, UIBlurEffectStyle effectStyle = UIBlurEffectStyle.ExtraLight)
+		{
+			var tcs = new TaskCompletionSource<String> ();
+
+
+			new NSObject ().BeginInvokeOnMainThread (() => {
+
+				var dialog = new DHSimplePickerDialog(items)
+				{
+					Title = title,
+					Message = message,
+					BlurEffectStyle = effectStyle,
+					ConstantUpdates = false,
+				};
+
+				if (!String.IsNullOrWhiteSpace(selectedItem))
+					dialog.SelectedItem = selectedItem;
+
+				dialog.OnCancel += (object sender, EventArgs e) => 
+				{
+					tcs.SetResult(null);
+				};
+
+				dialog.OnSelectedItemChanged += (object s, string e) => 
+				{
+					tcs.SetResult(dialog.SelectedItem);
+				};
+
+				dialog.Show();
+
+			});
+
+			return tcs.Task;
+		}
+
+		#endregion
 
 		private class SimplePickerModel : UIPickerViewModel {
 
