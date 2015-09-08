@@ -67,6 +67,8 @@ namespace DHDialogsSample
 				Console.WriteLine(e);
 			};
 
+			dialog.SelectedItem = "Rob";
+
 			dialog.Show();
 
 //			var result = await DHDatePickerDialog.ShowDialog(UIDatePickerMode.DateAndTime,"Date of Birth","Select your Date of Birth", new DateTime(1978,6,30,7,30,00,00) );

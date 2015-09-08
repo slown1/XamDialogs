@@ -33,7 +33,7 @@ namespace DHDialogs
 			}
 			set 
 			{
-				((SimplePickerModel)mPicker.Model).SelectedItem = value;
+				((SimplePickerModel)mPicker.Model).UpdateSelectedItem (value);
 			}
 		}
 
@@ -60,6 +60,7 @@ namespace DHDialogs
 		{
 			mPicker = new UIPickerView (CGRect.Empty);
 			mPicker.Model = new SimplePickerModel (this, items);
+
 		}
 
 		#region Methods
@@ -147,6 +148,23 @@ namespace DHDialogs
 			{
 				return 40f;
 			}
+
+			public void UpdateSelectedItem(string value)
+			{
+				SelectedItem = value;
+
+				//fing the index of the selected value
+				var indexOf = mItems.IndexOf(value);
+
+				if (indexOf != -1) 
+				{
+
+					((UIPickerView)pvc.ContentView).Select (indexOf, 0, true);
+				}
+
+
+			}
+
 		}
 	}
 }
