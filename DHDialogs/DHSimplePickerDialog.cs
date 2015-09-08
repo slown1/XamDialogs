@@ -2,6 +2,7 @@
 using UIKit;
 using CoreGraphics;
 using System.Collections.Generic;
+using Foundation;
 
 namespace DHDialogs
 {
@@ -128,6 +129,17 @@ namespace DHDialogs
 			{
 				return mItems [(int)row];
 
+			}
+
+			public override Foundation.NSAttributedString GetAttributedTitle (UIPickerView pickerView, nint row, nint component)
+			{
+				var str = mItems [(int)row];
+
+				var firstAttributes = new UIStringAttributes {
+					ForegroundColor = pvc.TitleLabelTextColor,
+				};
+
+				return new NSAttributedString(str, firstAttributes);
 			}
 
 			public override void Selected (UIPickerView picker, nint row, nint component)

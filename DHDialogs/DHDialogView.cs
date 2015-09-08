@@ -21,23 +21,20 @@ namespace DHDialogs
 
 		private DHDialogType _BoxType;
 
-		private nint _NumberOfDecimals;
-
 		private UIBlurEffectStyle _BlurEffectStyle = UIBlurEffectStyle.Light;
 
-		private List<UIView> _Elements;
-
 		private UIVisualEffectView _VisualEffectView;
-
-		private UITextField _TextInput;
-
-		private UITextField _SecureInput;
 
 		private UIView _ActualBox;
 
 		private NSObject mKeyboardDidSHowNotification;
 		private NSObject mKeyboardDidHideNotification;
 
+		private UIColor mTitleLabelColor;
+		private UIColor mMessageLabelColor;
+
+		private UIView mBackingView;
+		private UIColor mBackingColor;
 		#endregion
 
 		#region Properties
@@ -166,6 +163,66 @@ namespace DHDialogs
 		/// Occurs when on cancel.
 		/// </summary>
 		public event EventHandler OnCancel = delegate {};
+
+		/// <summary>
+		/// Gets or sets the color of the title label.
+		/// </summary>
+		/// <value>The color of the title label.</value>
+		public UIColor TitleLabelTextColor {
+			get 
+			{
+				if (mTitleLabelColor == null)
+					return (this.BlurEffectStyle == UIBlurEffectStyle.Dark) ? UIColor.White : UIColor.Black;
+				
+				return mTitleLabelColor; 
+			}
+			set 
+			{
+				
+				mTitleLabelColor = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the color of the message label text.
+		/// </summary>
+		/// <value>The color of the message label text.</value>
+		public UIColor MessageLabelTextColor {
+			get 
+			{
+				if (mMessageLabelColor == null)
+					return (this.BlurEffectStyle == UIBlurEffectStyle.Dark) ? UIColor.White : UIColor.Black;
+
+				return mMessageLabelColor; 
+			}
+			set 
+			{
+
+				mMessageLabelColor = value; }
+		}
+			
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="DHDialogs.DHDialogView"/> disable background overlay.
+		/// </summary>
+		/// <value><c>true</c> if disable background overlay; otherwise, <c>false</c>.</value>
+		public bool DisableBackgroundOverlay {
+			get;
+			set;
+		}
+			
+		/// <summary>
+		/// Gets or sets the color of the background overlay.
+		/// </summary>
+		/// <value>The color of the background overlay.</value>
+		public UIColor BackgroundOverlayColor {
+			get 
+			{
+				if (mBackingColor == null)
+					return UIColor.FromWhiteAlpha (0.1f, 0.5f);
+				return mBackingColor; 
+			}
+			set { mBackingColor = value; }
+		}
+
 		#endregion
 
 		#region Constructors
@@ -268,7 +325,6 @@ namespace DHDialogs
 			this.ActualBox.Layer.MasksToBounds = true;
 
 			// 
-			UIColor titleLabelTextColor = null;
 			UIColor messageLabelTextColor = null;
 			UIColor elementBackgroundColor = null;
 			UIColor buttonBackgroundColor = null;
@@ -280,7 +336,6 @@ namespace DHDialogs
 			switch (style) {
 			case UIBlurEffectStyle.Dark:
 				{
-					titleLabelTextColor = UIColor.White;
 					messageLabelTextColor = UIColor.White;
 					elementBackgroundColor = UIColor.FromWhiteAlpha (1.0f, 0.07f);
 					buttonBackgroundColor = UIColor.FromWhiteAlpha (1.0f, 0.07f);
@@ -288,7 +343,6 @@ namespace DHDialogs
 				break;
 			default:
 				{
-					titleLabelTextColor = UIColor.Black;
 					messageLabelTextColor = UIColor.Black;
 					elementBackgroundColor = UIColor.FromWhiteAlpha (1.0f, 0.50f);
 					buttonBackgroundColor = UIColor.FromWhiteAlpha (1.0f, 0.2f);
@@ -309,7 +363,7 @@ namespace DHDialogs
 			titleLabel.Font = UIFont.BoldSystemFontOfSize (17.0f);
 			titleLabel.Text = this.Title;
 			titleLabel.TextAlignment = UITextAlignment.Center;
-			titleLabel.TextColor = titleLabelTextColor;
+			titleLabel.TextColor = TitleLabelTextColor;
 
 
 			this.VisualEffectView.ContentView.Add (titleLabel);
@@ -373,7 +427,7 @@ namespace DHDialogs
 
 
 					cancelButton.TitleLabel.Font = UIFont.SystemFontOfSize (16.0f);
-					cancelButton.SetTitleColor (titleLabelTextColor, UIControlState.Normal);
+					cancelButton.SetTitleColor (TitleLabelTextColor, UIControlState.Normal);
 					cancelButton.SetTitleColor (UIColor.Gray, UIControlState.Highlighted);
 					cancelButton.BackgroundColor = buttonBackgroundColor;
 
@@ -392,7 +446,7 @@ namespace DHDialogs
 
 					submitButton.TitleLabel.Font = UIFont.SystemFontOfSize (16.0f);
 
-					submitButton.SetTitleColor (titleLabelTextColor, UIControlState.Normal);
+					submitButton.SetTitleColor (TitleLabelTextColor, UIControlState.Normal);
 					submitButton.SetTitleColor (UIColor.Gray, UIControlState.Highlighted);
 
 
@@ -416,7 +470,7 @@ namespace DHDialogs
 
 					submitButton.TitleLabel.Font = UIFont.SystemFontOfSize (16.0f);
 
-					submitButton.SetTitleColor (titleLabelTextColor, UIControlState.Normal);
+					submitButton.SetTitleColor (TitleLabelTextColor, UIControlState.Normal);
 					submitButton.SetTitleColor (UIColor.Gray, UIControlState.Highlighted);
 
 
@@ -440,7 +494,7 @@ namespace DHDialogs
 
 
 					cancelButton.TitleLabel.Font = UIFont.SystemFontOfSize (16.0f);
-					cancelButton.SetTitleColor (titleLabelTextColor, UIControlState.Normal);
+					cancelButton.SetTitleColor (TitleLabelTextColor, UIControlState.Normal);
 					cancelButton.SetTitleColor (UIColor.Gray, UIControlState.Highlighted);
 					cancelButton.BackgroundColor = buttonBackgroundColor;
 
@@ -459,6 +513,17 @@ namespace DHDialogs
 			this.ActualBox.Add (this.VisualEffectView);
 
 			this.ActualBox.Center = this.Center;
+
+			var window = UIApplication.SharedApplication.Windows [0];
+
+			mBackingView = new UIView (window.Bounds);
+
+			if (!DisableBackgroundOverlay) 
+			{
+				mBackingView.BackgroundColor = BackgroundOverlayColor;
+
+				this.InsertSubview (mBackingView, 0);
+			}
 		}
 
 		/// <summary>
@@ -568,12 +633,13 @@ namespace DHDialogs
 				UIView.Animate (0.3f, () => {
 					this.Center = new CGPoint (window.Center.X, window.Center.Y);
 					this.ActualBox.Center = this.Center;
-
+					mBackingView.Frame = this.Bounds;
 				});
 
 			} else {
 				this.Center = new CGPoint (window.Center.X, window.Center.Y);
 				this.ActualBox.Center = this.Center;
+				mBackingView.Frame = this.Bounds;
 			}
 
 		}
@@ -600,6 +666,11 @@ namespace DHDialogs
 		protected abstract void HandleCancel ();
 
 		protected abstract void HandleSubmit ();
+
+
+
+
+	
 		#endregion
 
 		#region Static Methods

@@ -16,7 +16,7 @@ namespace DHDialogsSample
 		{
 			base.ViewDidLoad ();
 			// Perform any additional setup after loading the view, typically from a nib.
-			this.View.BackgroundColor = UIColor.Gray;
+			this.View.BackgroundColor = UIColor.White;
 
 		}
 
@@ -61,6 +61,10 @@ namespace DHDialogsSample
 				CancelButtonText = "Not yet",
 				ConstantUpdates = false,
 			};
+
+			//dialog.BlurEffectStyle = UIBlurEffectStyle.Dark;
+
+			//dialog.BackingColor = UIColor.FromWhiteAlpha(0.1f,0.5f);
 
 			dialog.OnSelectedItemChanged += (object s, string e) => 
 			{
