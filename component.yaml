@@ -1,0 +1,31 @@
+%YAML 1.2
+---
+build: 
+  - path: src/DHDialogs.sln
+    configuration: Release
+name: DHDialogs
+id: dhdialogs
+summary: Custom dialogs for picking dates and from simple lists
+publisher: Xamarin Inc
+license: component/License.md
+icons: 
+  - component/dhdialogs_128x128.png
+  - component/dhdialogs_512x512.png
+publisher-url: http://www.xamarin.com
+src-url: https://github.com/newky2k/DHDialogs
+libraries: 
+  ios-unified: 
+    - src/DHDialogs/bin/Release/DHDialogs.dll
+details: component/Details.md
+screenshots: 
+  - component/screenshots/Screen1.png
+getting-started: component/GettingStarted.md
+version: 1.0
+samples: 
+  - path: samples/DHDialogsSample.sln
+    name: iOS Sample
+    nobuild: "true"
+    configuration: Release|iPhone
+packages:
+  ios: dhdialogs, Version=1.0.0
+is_shell: true
