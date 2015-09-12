@@ -92,4 +92,7 @@
       <Name>DHDialogs</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\app_bg2%402x.jpg" />
+  </ItemGroup>
 </Project>
