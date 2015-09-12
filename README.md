@@ -1,2 +1,0 @@
-# DHDialogs
-Dialogs for iOS 

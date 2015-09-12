@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHDialogsSample", "DHDialogsSample\DHDialogsSample.csproj", "{AA83B60D-B3E7-4AE3-A3DA-E34819BBBEFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHDialogs", "DHDialogs\DHDialogs.csproj", "{EEB23B63-1AC2-4E05-B707-1CDD066FCDC5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHDialogs", "..\src\DHDialogs\DHDialogs.csproj", "{EEB23B63-1AC2-4E05-B707-1CDD066FCDC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

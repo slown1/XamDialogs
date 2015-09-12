@@ -14,9 +14,13 @@ namespace DHDialogsSample
 	[Register ("ViewController")]
 	partial class ViewController
 	{
-		[Action ("OnShowDialog:")]
+		[Action ("ShowDatePicker:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void OnShowDialog (UIButton sender);
+		partial void ShowDatePicker (UIButton sender);
+
+		[Action ("ShowSimplePicker:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void ShowSimplePicker (UIButton sender);
 
 		void ReleaseDesignerOutlets ()
 		{

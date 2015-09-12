@@ -87,7 +87,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\DHDialogs\DHDialogs.csproj">
+    <ProjectReference Include="..\..\src\DHDialogs\DHDialogs.csproj">
       <Project>{EEB23B63-1AC2-4E05-B707-1CDD066FCDC5}</Project>
       <Name>DHDialogs</Name>
     </ProjectReference>
