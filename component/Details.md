@@ -1,13 +1,14 @@
-# PickerCells
+# DHDialogs
 
-TableViewCell classes for adding inline UIDatePicker and UIPickerView elements into a UITableView.
+Custom dialogs for picking dates and simple lists
 
- * Inline Entry for Dates and Pickers
- * Handles expand and contract
- * Simple API
+ * Closely resembles new style iOS 7+ AlertViews
  * Customisable
+ * Date and Picker view in alert dialog
+ * Extentable, create your own custom dialogs
+ * Styleable
  
 ## Attribution
 
-Inspired by, and partial ported to C# from, Objective-C project created by [Danis Ziganshin](https://github.com/zigdanis/PickerCells)
+Inspired by, and partial ported to C# from, Objective-C project created by [planetexpress69](https://github.com/planetexpress69/MKInputBoxView)
    
