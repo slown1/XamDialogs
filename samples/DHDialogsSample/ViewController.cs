@@ -31,14 +31,14 @@ namespace DHDialogsSample
 
 			var dialog = new DHDatePickerDialog(UIDatePickerMode.DateAndTime)
 			{
-				Title = "Who are you?",
-				Message = "Please enter your username and password to get access to the system.",
+				Title = "Date Picker",
+				Message = "Please Pick a date and time",
 				BlurEffectStyle = UIBlurEffectStyle.ExtraLight,
 				CancelButtonText = "Cancel",
 				ConstantUpdates = false,
 			};
 				
-			dialog.SelectedDate = new DateTime(1978,6,30,7,30,00,00);
+			dialog.SelectedDate = new DateTime(1969,7,20,20,18,00,00);
 
 			dialog.ButtonMode = ButtonMode.OkAndCancel;
 
@@ -54,7 +54,7 @@ namespace DHDialogsSample
 
 			dialog.Show();
 
-			//
+			// Static methods
 			//var result = await DHDatePickerDialog.ShowDialog(UIDatePickerMode.DateAndTime,"Date of Birth","Select your Date of Birth", new DateTime(1978,6,30,7,30,00,00) );
 
 			//Console.WriteLine(result);
@@ -62,10 +62,10 @@ namespace DHDialogsSample
 
 		async partial void ShowSimplePicker (UIButton sender)
 		{
-			var dialog = new DHSimplePickerDialog(new List<String>(){"Dave","Rob","Jamie"})
+			var dialog = new DHSimplePickerDialog(new List<String>(){"Ringo","John","Paul", "George"})
 			{
-				Title = "Who are you?",
-				Message = "Please enter your username and password to get access to the system.",
+				Title = "Favorite Beatle",
+				Message = "Pick your favorite beatle",
 				BlurEffectStyle = UIBlurEffectStyle.ExtraLight,
 				CancelButtonText = "Cancel",
 				ConstantUpdates = false,
@@ -76,10 +76,11 @@ namespace DHDialogsSample
 				Console.WriteLine(e);
 			};
 
-			dialog.SelectedItem = "Rob";
+			dialog.SelectedItem = "John";
 
 			dialog.Show();
 
+			// Static methods
 			//var result = await DHSimplePickerDialog.ShowDialog("Who are you?","Select your name", new List<String>(){"Dave","Rob","Jamie"}, "Rob");
 			//Console.WriteLine(result);
 		}
