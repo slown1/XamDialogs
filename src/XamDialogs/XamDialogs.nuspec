@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package >
   <metadata>
-    <id>dhdialogs</id>
+    <id>xamdialogs</id>
     <version>1.0</version>
     <title>XamDialogs for Xamarin.iOS</title>
     <authors>Dave Humphreys</authors>
