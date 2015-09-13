@@ -1,6 +1,6 @@
-# DHDialogs
+# XamDialogs
 
-Custom dialogs for picking dates and simple lists
+Custom dialogs for picking dates and from simple lists for Xamarin.iOS
 
  * Closely resembles new style iOS 7+ AlertViews
  * Customisable

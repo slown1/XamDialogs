@@ -15,12 +15,12 @@ task :default => ".xpkg/xamarin-component.exe" do
 	line = <<-END
 	mono .xpkg/xamarin-component.exe package
 		END
-	puts "* Creating DHDialogs Component"
+	puts "* Creating XamDialogs Component"
 	puts line.strip.gsub "\t\t", "\\\n    "
 	sh line, :verbose => false
-	puts "* Created DHDialogs Component"
+	puts "* Created XamDialogs Component"
 	line = <<-END
-	nuget pack src/DHDialogs/DHDialogs.nuspec
+	nuget pack src/XamDialogs/XamDialogs.nuspec
 		END
 	puts "* Creating Nuget Package"
 	puts line.strip.gsub "\t\t", "\\\n    "
