@@ -3,8 +3,8 @@
 build: 
   - path: src/DHDialogs.sln
     configuration: Release
-name: DHDialogs
-id: dhdialogs
+name: XamDialogs
+id: xamdialogs
 summary: Custom dialogs for picking dates and from simple lists
 publisher: Xamarin Inc
 license: component/License.md
