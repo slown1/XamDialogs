@@ -4,9 +4,9 @@ using CoreGraphics;
 using Foundation;
 using System.Threading.Tasks;
 
-namespace DHDialogs
+namespace XamDialogs
 {
-	public class DHDatePickerDialog : DHDialogView
+	public class DHDatePickerDialog : XamDialogView
 	{
 
 		#region Fields
@@ -59,11 +59,11 @@ namespace DHDialogs
 		#region Constructors
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DHDialogs.DHDatePickerDialog"/> class.
+		/// Initializes a new instance of the <see cref="XamDialogs.DHDatePickerDialog"/> class.
 		/// </summary>
 		/// <param name="mode">Mode.</param>
 		public DHDatePickerDialog (UIDatePickerMode mode) 
-			: base(DHDialogType.DatePicker)
+			: base(XamDialogType.DatePicker)
 		{
 			mDatePicker = new UIDatePicker (CGRect.Empty);
 			mDatePicker.Mode = mode;
@@ -119,7 +119,7 @@ namespace DHDialogs
 		/// <param name="message">Message.</param>
 		/// <param name="selectedDate">Selected date.</param>
 		/// <param name="effectStyle">Effect style.</param>
-		public static Task<DateTime?> ShowDialog(UIDatePickerMode mode, String title, String message, DateTime? selectedDate = null, UIBlurEffectStyle effectStyle = UIBlurEffectStyle.ExtraLight)
+		public static Task<DateTime?> ShowDialogAsync(UIDatePickerMode mode, String title, String message, DateTime? selectedDate = null, UIBlurEffectStyle effectStyle = UIBlurEffectStyle.ExtraLight)
 		{
 			var tcs = new TaskCompletionSource<DateTime?> ();
 

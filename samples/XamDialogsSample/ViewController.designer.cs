@@ -9,7 +9,7 @@ using System;
 using System.CodeDom.Compiler;
 using UIKit;
 
-namespace DHDialogsSample
+namespace XamDialogsSample
 {
 	[Register ("ViewController")]
 	partial class ViewController

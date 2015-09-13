@@ -1,10 +1,10 @@
 ﻿using System;
 using UIKit;
-using DHDialogs;
+using XamDialogs;
 using Foundation;
 using System.Collections.Generic;
 
-namespace DHDialogsSample
+namespace XamDialogsSample
 {
 	public partial class ViewController : UIViewController
 	{

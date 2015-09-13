@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace DHDialogsSample
+namespace XamDialogsSample
 {
 	public class Application
 	{

@@ -2,12 +2,12 @@
 using UIKit;
 using CoreGraphics;
 
-namespace DHDialogs
+namespace XamDialogs
 {
 	/// <summary>
 	/// DHDialog with customView
 	/// </summary>
-	public class DHCustomViewDialog : DHDialogView
+	internal class DHCustomViewDialog : XamDialogView
 	{
 
 
@@ -44,7 +44,7 @@ namespace DHDialogs
 
 
 		public DHCustomViewDialog () 
-			: base(DHDialogType.CustomView)
+			: base(XamDialogType.CustomView)
 		{
 			
 		}

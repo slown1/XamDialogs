@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using Foundation;
 using System.Threading.Tasks;
 
-namespace DHDialogs
+namespace XamDialogs
 {
 	/// <summary>
 	/// DH simple picker dialog.
 	/// </summary>
-	public class DHSimplePickerDialog : DHDialogView
+	public class DHSimplePickerDialog : XamDialogView
 	{
 
 		#region Fields
@@ -64,11 +64,11 @@ namespace DHDialogs
 		#region Constructors
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DHDialogs.DHSimplePickerDialog"/> class.
+		/// Initializes a new instance of the <see cref="XamDialogs.DHSimplePickerDialog"/> class.
 		/// </summary>
 		/// <param name="items">Items.</param>
 		public DHSimplePickerDialog (List<String> items) 
-			: base(DHDialogType.PickerView)
+			: base(XamDialogType.PickerView)
 		{
 			mPicker = new UIPickerView (CGRect.Empty);
 			mPicker.Model = new SimplePickerModel (this, items);
@@ -120,7 +120,7 @@ namespace DHDialogs
 		/// <param name="items">Items.</param>
 		/// <param name="selectedItem">Selected item.</param>
 		/// <param name="effectStyle">Effect style.</param>
-		public static Task<String> ShowDialog(String title, String message, List<String> items, String selectedItem = null, UIBlurEffectStyle effectStyle = UIBlurEffectStyle.ExtraLight)
+		public static Task<String> ShowDialogAsync(String title, String message, List<String> items, String selectedItem = null, UIBlurEffectStyle effectStyle = UIBlurEffectStyle.ExtraLight)
 		{
 			var tcs = new TaskCompletionSource<String> ();
 

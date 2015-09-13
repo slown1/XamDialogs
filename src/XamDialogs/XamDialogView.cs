@@ -4,9 +4,9 @@ using Foundation;
 using System.Collections.Generic;
 using CoreGraphics;
 
-namespace DHDialogs
+namespace XamDialogs
 {
-	public abstract class DHDialogView : UIView
+	public abstract class XamDialogView : UIView
 	{
 
 		#region Fields
@@ -19,7 +19,7 @@ namespace DHDialogs
 
 		private String _CancelButtonText;
 
-		private DHDialogType _BoxType;
+		private XamDialogType _BoxType;
 
 		private UIBlurEffectStyle _BlurEffectStyle = UIBlurEffectStyle.Light;
 
@@ -101,7 +101,7 @@ namespace DHDialogs
 		/// Gets the type of the box.
 		/// </summary>
 		/// <value>The type of the box.</value>
-		public DHDialogType BoxType {
+		public XamDialogType BoxType {
 			get {
 				return this._BoxType;
 			}
@@ -142,7 +142,7 @@ namespace DHDialogs
 		}
 			
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="DHDialogs.DHDialogView"/> constantly update any value changes
+		/// Gets or sets a value indicating whether this <see cref="XamDialogs.DHDialogView"/> constantly update any value changes
 		/// </summary>
 		/// <value><c>true</c> if constant updates; otherwise, <c>false</c>.</value>
 		public bool ConstantUpdates {
@@ -201,7 +201,7 @@ namespace DHDialogs
 		}
 			
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="DHDialogs.DHDialogView"/> disable background overlay.
+		/// Gets or sets a value indicating whether this <see cref="XamDialogs.DHDialogView"/> disable background overlay.
 		/// </summary>
 		/// <value><c>true</c> if disable background overlay; otherwise, <c>false</c>.</value>
 		public bool DisableBackgroundOverlay {
@@ -231,7 +231,7 @@ namespace DHDialogs
 		/// Initializes a new instance of the <see cref="MKInputBoxView.MKInputBoxView"/> class.
 		/// </summary>
 		/// <param name="boxType">Box type.</param>
-		public DHDialogView (DHDialogType boxType)
+		public XamDialogView (XamDialogType boxType)
 			: base ()
 		{
 			var actualBoxHeight = 155.0f;
@@ -605,7 +605,7 @@ namespace DHDialogs
 					yCorrection = 100.0f;
 				}
 
-				if (this.BoxType == DHDialogType.LoginAndPasswordInput) {
+				if (this.BoxType == XamDialogType.LoginAndPasswordInput) {
 					yCorrection += 45.0f;
 				}
 			} else {
@@ -680,7 +680,7 @@ namespace DHDialogs
 		/// </summary>
 		/// <returns>The of type.</returns>
 		/// <param name="boxType">Box type.</param>
-		public static DHDialogView BoxOfType (DHDialogType boxType)
+		public static XamDialogView BoxOfType (XamDialogType boxType)
 		{
 			return null;
 		}

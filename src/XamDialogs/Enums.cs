@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace DHDialogs {
+namespace XamDialogs {
 
 
 	/// <summary>
 	/// Type of dialog
 	/// </summary>
-	public enum DHDialogType {
+	public enum XamDialogType {
 
 		PlainTextInput,
 		NumberInput,
