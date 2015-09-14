@@ -390,8 +390,11 @@ namespace XamDialogs
 			conFrame.X = (this.ActualBox.Frame.Size.Width / 2) - (conFrame.Width / 2);
 			aView.Frame = conFrame;
 
+			var buttonHeight = 40.0f;
+			var aPos = messageLabel.Frame.Bottom + buttonHeight;
+
 			CGRect extendedFrame = this.ActualBox.Frame;
-			extendedFrame.Height = 110.0f + padding;
+			extendedFrame.Height = aPos + padding;
 			extendedFrame.Height += aView.Frame.Height;
 			this.ActualBox.Frame = extendedFrame;
 
@@ -408,7 +411,7 @@ namespace XamDialogs
 
 			}
 			// 
-			var buttonHeight = 40.0f;
+
 			var buttonWidth = this.ActualBox.Frame.Size.Width / 2;
 
 

@@ -73,6 +73,7 @@ namespace XamDialogs
 			mPicker = new UIPickerView (CGRect.Empty);
 			mPicker.Model = new SimplePickerModel (this, items);
 
+			//mPicker.BackgroundColor = UIColor.Red;
 		}
 
 		#endregion
@@ -206,6 +207,9 @@ namespace XamDialogs
 
 			public override void Selected (UIPickerView picker, nint row, nint component)
 			{
+				if (mItems == null || mItems.Count == 0)
+					return;
+				
 				var item = mItems [(int)row];
 
 				if (item != SelectedItem) 
