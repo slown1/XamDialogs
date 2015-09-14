@@ -10,7 +10,7 @@ namespace XamDialogs
 	/// <summary>
 	/// DH simple picker dialog.
 	/// </summary>
-	public class DHSimplePickerDialog : XamDialogView
+	public class XamSimplePickerDialog : XamDialogView
 	{
 
 		#region Fields
@@ -67,7 +67,7 @@ namespace XamDialogs
 		/// Initializes a new instance of the <see cref="XamDialogs.DHSimplePickerDialog"/> class.
 		/// </summary>
 		/// <param name="items">Items.</param>
-		public DHSimplePickerDialog (List<String> items) 
+		public XamSimplePickerDialog (List<String> items) 
 			: base(XamDialogType.PickerView)
 		{
 			mPicker = new UIPickerView (CGRect.Empty);
@@ -128,7 +128,7 @@ namespace XamDialogs
 
 			new NSObject ().BeginInvokeOnMainThread (() => {
 
-				var dialog = new DHSimplePickerDialog(items)
+				var dialog = new XamSimplePickerDialog(items)
 				{
 					Title = title,
 					Message = message,
@@ -160,7 +160,7 @@ namespace XamDialogs
 
 		private class SimplePickerModel : UIPickerViewModel {
 
-			private DHSimplePickerDialog pvc;
+			private XamSimplePickerDialog pvc;
 			private List<String> mItems;
 
 			/// <summary>
@@ -173,7 +173,7 @@ namespace XamDialogs
 			}
 
 
-			public SimplePickerModel (DHSimplePickerDialog pvc, List<String> items) {
+			public SimplePickerModel (XamSimplePickerDialog pvc, List<String> items) {
 				this.pvc = pvc;
 				mItems = items;
 			}

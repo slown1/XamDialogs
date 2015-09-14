@@ -7,7 +7,7 @@ namespace XamDialogs
 	/// <summary>
 	/// DHDialog with customView
 	/// </summary>
-	internal class DHCustomViewDialog : XamDialogView
+	internal class XamCustomViewDialog : XamDialogView
 	{
 
 
@@ -43,7 +43,7 @@ namespace XamDialogs
 		}
 
 
-		public DHCustomViewDialog () 
+		public XamCustomViewDialog () 
 			: base(XamDialogType.CustomView)
 		{
 			

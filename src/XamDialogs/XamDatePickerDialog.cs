@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace XamDialogs
 {
-	public class DHDatePickerDialog : XamDialogView
+	public class XamDatePickerDialog : XamDialogView
 	{
 
 		#region Fields
@@ -62,7 +62,7 @@ namespace XamDialogs
 		/// Initializes a new instance of the <see cref="XamDialogs.DHDatePickerDialog"/> class.
 		/// </summary>
 		/// <param name="mode">Mode.</param>
-		public DHDatePickerDialog (UIDatePickerMode mode) 
+		public XamDatePickerDialog (UIDatePickerMode mode) 
 			: base(XamDialogType.DatePicker)
 		{
 			mDatePicker = new UIDatePicker (CGRect.Empty);
@@ -126,7 +126,7 @@ namespace XamDialogs
 
 			new NSObject ().BeginInvokeOnMainThread (() => {
 
-				var dialog = new DHDatePickerDialog(mode)
+				var dialog = new XamDatePickerDialog(mode)
 				{
 					Title = title,
 					Message = message,
