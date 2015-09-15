@@ -38,6 +38,13 @@ Currently there are two standard dialogs, though more are planned in the future.
  - BackgroundOverlayColor
   - Set the color of the overlay that covers the content underneath the dialog
   
+#### Methods ####
+
+ - Show
+  - Show the dialog
+ - Hide
+  - Hide the dialog
+  
 #### Events ####
 
  - OnCancel
@@ -134,3 +141,23 @@ You can also use an awaitable static method called `ShowDialogAsync` to show the
 
  - OnSelectedItemChanged
   - Called when the selected item has changed, if `ConstantUpdates` is true, or when the submit button has been clicked.  
+  
+## Sub-classing ##
+
+`XamDialogView` is an abstract class, allowing you to easily sub-class it to produce your own dialogs very easily, as demonstrated by the `CustomDialog` in the sample.  
+
+You will need to implement three abstract methods and a single property, which are detailed below.  Addtionally your constructor will need to call the base `XamDialogView` constructor that takes an `XamDialogType` value.  
+
+#### Methods ####
+
+ - CanSubmit
+  - Determins if the submit can be processes
+ - HandleCancel
+  - Called when the cancel button is pressed
+ - HandleSubmit
+  - Called whe the submit button is pressed
+  
+#### Properties ####
+
+ - ContentView
+  - Returns the custom `UIView` to be embedded into the Dialog

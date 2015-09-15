@@ -27,5 +27,5 @@ samples:
     nobuild: "true"
     configuration: Release|iPhone
 packages:
-  ios: xamdialogs, Version=1.0.0
+  ios-unified: xamdialogs, Version=1.0.0.1
 is_shell: true
