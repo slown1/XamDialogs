@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>xamdialogs</id>
-    <version>1.0</version>
+    <version>1.0.0.1</version>
     <title>XamDialogs for Xamarin.iOS</title>
     <authors>Dave Humphreys</authors>
     <owners>Dave Humphreys, Xamarin</owners>
@@ -14,6 +14,6 @@
     <tags>Xamarin.iOS Dialogs</tags>
   </metadata>
       <files>
-    	<file src="bin/Release/XamDialogs.dll" target="lib\Xamarin.iOS" />
+    	<file src="bin/Release/XamDialogs.dll" target="lib\Xamarin.iOS10" />
     </files>
 </package>

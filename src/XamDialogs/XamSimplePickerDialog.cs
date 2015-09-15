@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace XamDialogs
 {
 	/// <summary>
-	/// DH simple picker dialog.
+	/// XamSimplePickerDialog
 	/// </summary>
 	public class XamSimplePickerDialog : XamDialogView
 	{

@@ -26,10 +26,10 @@ namespace XamDialogsSample
 			// Release any cached data, images, etc that aren't in use.
 		}
 			
-		async partial void ShowDatePicker (UIButton sender)
+		partial void ShowDatePicker (UIButton sender)
 		{
 
-			var dialog = new DHDatePickerDialog(UIDatePickerMode.DateAndTime)
+			var dialog = new XamDatePickerDialog(UIDatePickerMode.DateAndTime)
 			{
 				Title = "Date Picker",
 				Message = "Please Pick a date and time",
@@ -55,14 +55,14 @@ namespace XamDialogsSample
 			dialog.Show();
 
 			// Static methods
-			//var result = await DHDatePickerDialog.ShowDialog(UIDatePickerMode.DateAndTime,"Date of Birth","Select your Date of Birth", new DateTime(1978,6,30,7,30,00,00) );
-
-			//Console.WriteLine(result);
+//			var result = await XamDatePickerDialog.ShowDialogAsync(UIDatePickerMode.DateAndTime,"Date of Birth","Select your Date of Birth", new DateTime(1969,7,20,20,18,00,00) );
+//
+//			Console.WriteLine(result);
 		}
 
-		async partial void ShowSimplePicker (UIButton sender)
+		partial void ShowSimplePicker (UIButton sender)
 		{
-			var dialog = new DHSimplePickerDialog(new List<String>(){"Ringo","John","Paul", "George"})
+			var dialog = new XamSimplePickerDialog(new List<String>(){"Ringo","John","Paul", "George"})
 			{
 				Title = "Favorite Beatle",
 				Message = "Pick your favorite beatle",
@@ -81,8 +81,8 @@ namespace XamDialogsSample
 			dialog.Show();
 
 			// Static methods
-			//var result = await DHSimplePickerDialog.ShowDialog("Who are you?","Select your name", new List<String>(){"Dave","Rob","Jamie"}, "Rob");
-			//Console.WriteLine(result);
+//			var result = await XamSimplePickerDialog.ShowDialogAsync("Who are you?","Select your name", new List<String>(){"Dave","Rob","Jamie"}, "Rob");
+//			Console.WriteLine(result);
 		}
 	}
 }
