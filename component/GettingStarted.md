@@ -2,9 +2,9 @@ Custom dialogs for picking dates and simple lists
 
 ## Usage ##
 
-Both the `XamSimplePickerDialog` and `XamDatePickerDialog` dialog classes are based on `XamDialogView` which can also easily be sub-classed to create your own custom dialogs.  
+Both the `XamSimplePickerDialog` and `XamDatePickerDialog` dialog classes are based on `XamDialogView` which can easily be sub-classed to create your own custom dialogs.  
 
-Currently there are two standard ones, though more are planned in the future.
+Currently there are two standard dialogs, though more are planned in the future.
 
 - Date Picker
 - Simple list picker
@@ -18,15 +18,15 @@ Currently there are two standard ones, though more are planned in the future.
  - Title
   - Gets/Sets the title of the dialog
  - TitleLabelTextColor
-  - Gets/Sets the Color of the title label. Also the colour of the button text
+  - Gets/Sets the Color of the title label. Also sets the colour of the button text
  - Message
   - Gets/Sets the message of the dialog
  - MessageLabelTextColor
-  - Gets/Sets the color of the Message label.
+  - Gets/Sets the color of the message label.
  - SubmitButtonText
   - The text to appear on the submit button
  - CancelButtonText
-  - The text appear on the Cancel button
+  - The text appear on the cancel button
  - BlurEffectStyle
   - The type of blur effect to use
  - ConstantUpdates
@@ -47,7 +47,7 @@ The submit event is provided on the sub-class as it will be typed to the data th
 
 ### XamSimplePickerDialog ###
 
-`XamSimplePickerDialog` is a dialog with a simple UIPickerView with a single component.  This can be used to present a simple list.
+`XamSimplePickerDialog` is a dialog with a simple UIPickerView with a single component.  This can be used to present a simple list.  
 
 To create the picker simply provide the constructor with a list of strings to display.
 
