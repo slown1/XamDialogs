@@ -31,4 +31,7 @@ Global
 		{EEB23B63-1AC2-4E05-B707-1CDD066FCDC5}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		
 	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		version = 1.1
+	EndGlobalSection
 EndGlobal

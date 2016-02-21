@@ -262,7 +262,7 @@ namespace XamDialogs
 		/// <summary>
 		/// Show this instance.
 		/// </summary>
-		public void Show ()
+		public void Show (UIView aView)
 		{
 
 			this.Alpha = 0.0f;
@@ -273,9 +273,8 @@ namespace XamDialogs
 				this.Alpha = 1.0f;
 			});
 
-			var window = UIApplication.SharedApplication.Windows [0];
-			window.Add (this);
-			window.BringSubviewToFront (this);
+			aView.Add (this);
+			aView.BringSubviewToFront (this);
 
 			UIDevice.CurrentDevice.BeginGeneratingDeviceOrientationNotifications ();
 
@@ -292,6 +291,27 @@ namespace XamDialogs
 
 			});
 
+		}
+
+		/// <summary>
+		/// Show the specified aView.
+		/// </summary>
+		/// <param name="aView">A view.</param>
+		public void Show (UIViewController aView)
+		{
+			Show (aView.View);
+
+		}
+
+		/// <summary>
+		/// Show this instance.
+		/// </summary>
+		public void Show ()
+		{
+			var window = UIApplication.SharedApplication.Windows [0];
+
+			Show (window);
+		
 		}
 
 		/// <summary>
