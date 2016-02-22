@@ -80,6 +80,21 @@ You can also use an awaitable static method called `ShowDialogAsync` to show the
 
 			var result = await XamSimplePickerDialog.ShowDialogAsync("Who are you?","Select your name", new List<String>(){"Dave","Rob","Jamie"}, "Rob");
 			Console.WriteLine(result);
+			
+### Show() ###
+
+By default Show() will add the view to the first window in the system, but this may not be the behaviour your are looking for.
+
+We have added some new overloads for `Show`
+
+ - Show()
+   - Default behaviour using the first system window
+ - Show(UIViewController vc)
+   - Show the dialog on the specified view contoller, attaching to its view
+ - Show(UIView view)
+   - Attach the dialog to the specified view
+
+
 #### Properties ####
 
  - SelectedItem

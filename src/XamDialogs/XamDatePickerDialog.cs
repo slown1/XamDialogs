@@ -154,6 +154,95 @@ namespace XamDialogs
 			return tcs.Task;
 		}
 
+		/// <summary>
+		/// Shows the dialog on a specific View Controller
+		/// </summary>
+		/// <returns>The dialog async.</returns>
+		/// <param name="vc">The UIViewController</param>
+		/// <param name="mode">Mode.</param>
+		/// <param name="title">Title.</param>
+		/// <param name="message">Message.</param>
+		/// <param name="selectedDate">Selected date.</param>
+		/// <param name="effectStyle">Effect style.</param>
+		public static Task<DateTime?> ShowDialogAsync(UIViewController vc, UIDatePickerMode mode, String title, String message, DateTime? selectedDate = null, UIBlurEffectStyle effectStyle = UIBlurEffectStyle.ExtraLight)
+		{
+			var tcs = new TaskCompletionSource<DateTime?> ();
+
+
+			new NSObject ().BeginInvokeOnMainThread (() => {
+
+				var dialog = new XamDatePickerDialog(mode)
+				{
+					Title = title,
+					Message = message,
+					BlurEffectStyle = effectStyle,
+					ConstantUpdates = false,
+				};
+
+				if (selectedDate.HasValue)
+					dialog.SelectedDate = selectedDate.Value;
+
+				dialog.OnCancel += (object sender, EventArgs e) => 
+				{
+					tcs.SetResult(null);
+				};
+
+				dialog.OnSelectedDateChanged += (object s, DateTime e) => 
+				{
+					tcs.SetResult(dialog.SelectedDate);
+				};
+
+				dialog.Show(vc);
+
+			});
+
+			return tcs.Task;
+		}
+
+		/// <summary>
+		/// Shows the dialog on a specific view
+		/// </summary>
+		/// <returns>The dialog async.</returns>
+		/// <param name="view">The view</param>
+		/// <param name="mode">Mode.</param>
+		/// <param name="title">Title.</param>
+		/// <param name="message">Message.</param>
+		/// <param name="selectedDate">Selected date.</param>
+		/// <param name="effectStyle">Effect style.</param>
+		public static Task<DateTime?> ShowDialogAsync(UIView view, UIDatePickerMode mode, String title, String message, DateTime? selectedDate = null, UIBlurEffectStyle effectStyle = UIBlurEffectStyle.ExtraLight)
+		{
+			var tcs = new TaskCompletionSource<DateTime?> ();
+
+
+			new NSObject ().BeginInvokeOnMainThread (() => {
+
+				var dialog = new XamDatePickerDialog(mode)
+				{
+					Title = title,
+					Message = message,
+					BlurEffectStyle = effectStyle,
+					ConstantUpdates = false,
+				};
+
+				if (selectedDate.HasValue)
+					dialog.SelectedDate = selectedDate.Value;
+
+				dialog.OnCancel += (object sender, EventArgs e) => 
+				{
+					tcs.SetResult(null);
+				};
+
+				dialog.OnSelectedDateChanged += (object s, DateTime e) => 
+				{
+					tcs.SetResult(dialog.SelectedDate);
+				};
+
+				dialog.Show(view);
+
+			});
+
+			return tcs.Task;
+		}
 		#endregion
 	}
 }

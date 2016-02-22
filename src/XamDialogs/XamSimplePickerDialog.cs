@@ -112,10 +112,9 @@ namespace XamDialogs
 		#region static Methods
 
 		/// <summary>
-		/// Shows the dialog.
+		/// Shows the dialog on the window
 		/// </summary>
-		/// <returns>The dialog.</returns>
-		/// <param name="mode">Mode.</param>
+		/// <returns>The dialog async.</returns>
 		/// <param name="title">Title.</param>
 		/// <param name="message">Message.</param>
 		/// <param name="items">Items.</param>
@@ -150,6 +149,97 @@ namespace XamDialogs
 				};
 
 				dialog.Show();
+
+			});
+
+			return tcs.Task;
+		}
+			
+		/// <summary>
+		/// Shows the dialog on the specified View Controller
+		/// </summary>
+		/// <returns>The dialog async.</returns>
+		/// <param name="vc">The view controlller</param>
+		/// <param name="title">Title.</param>
+		/// <param name="message">Message.</param>
+		/// <param name="items">Items.</param>
+		/// <param name="selectedItem">Selected item.</param>
+		/// <param name="effectStyle">Effect style.</param>
+		public static Task<String> ShowDialogAsync(UIViewController vc, String title, String message, List<String> items, String selectedItem = null, UIBlurEffectStyle effectStyle = UIBlurEffectStyle.ExtraLight)
+		{
+			var tcs = new TaskCompletionSource<String> ();
+
+
+			new NSObject ().BeginInvokeOnMainThread (() => {
+
+				var dialog = new XamSimplePickerDialog(items)
+				{
+					Title = title,
+					Message = message,
+					BlurEffectStyle = effectStyle,
+					ConstantUpdates = false,
+				};
+
+				if (!String.IsNullOrWhiteSpace(selectedItem))
+					dialog.SelectedItem = selectedItem;
+
+				dialog.OnCancel += (object sender, EventArgs e) => 
+				{
+					tcs.SetResult(null);
+				};
+
+				dialog.OnSelectedItemChanged += (object s, string e) => 
+				{
+					tcs.SetResult(dialog.SelectedItem);
+				};
+
+				dialog.Show(vc);
+
+			});
+
+			return tcs.Task;
+		}
+
+
+		/// <summary>
+		/// Shows the dialog on the specified view controller
+		/// </summary>
+		/// <returns>The dialog async.</returns>
+		/// <param name="view">View.</param>
+		/// <param name="title">Title.</param>
+		/// <param name="message">Message.</param>
+		/// <param name="items">Items.</param>
+		/// <param name="selectedItem">Selected item.</param>
+		/// <param name="effectStyle">Effect style.</param>
+		public static Task<String> ShowDialogAsync(UIView view, String title, String message, List<String> items, String selectedItem = null, UIBlurEffectStyle effectStyle = UIBlurEffectStyle.ExtraLight)
+		{
+			var tcs = new TaskCompletionSource<String> ();
+
+
+			new NSObject ().BeginInvokeOnMainThread (() => {
+
+				var dialog = new XamSimplePickerDialog(items)
+				{
+					Title = title,
+					Message = message,
+					BlurEffectStyle = effectStyle,
+					ConstantUpdates = false,
+				};
+
+				if (!String.IsNullOrWhiteSpace(selectedItem))
+					dialog.SelectedItem = selectedItem;
+
+				dialog.OnCancel += (object sender, EventArgs e) => 
+				{
+					tcs.SetResult(null);
+				};
+
+				dialog.OnSelectedItemChanged += (object s, string e) => 
+				{
+					tcs.SetResult(dialog.SelectedItem);
+				};
+
+				dialog.Show(view);
 
 			});
 
