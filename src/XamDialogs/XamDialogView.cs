@@ -235,7 +235,8 @@ namespace XamDialogs
 			: base ()
 		{
 			var actualBoxHeight = 155.0f;
-			var window = UIApplication.SharedApplication.Windows [0];
+			var window = UIApplication.SharedApplication.Windows[UIApplication.SharedApplication.Windows.Length - 1];
+
 			var allFrame = window.Frame;
 
 			var boxFrame = new CGRect (0, 0, Math.Min (325, window.Frame.Size.Width - 50), actualBoxHeight);
