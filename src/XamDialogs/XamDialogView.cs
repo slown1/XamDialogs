@@ -309,10 +309,8 @@ namespace XamDialogs
 		/// </summary>
 		public void Show ()
 		{
-			var window = UIApplication.SharedApplication.Windows [0];
-
+			var window = UIApplication.SharedApplication.Windows[UIApplication.SharedApplication.Windows.Length - 1];
 			Show (window);
-		
 		}
 
 		/// <summary>
@@ -538,7 +536,9 @@ namespace XamDialogs
 
 			this.ActualBox.Center = this.Center;
 
-			var window = UIApplication.SharedApplication.Windows [0];
+
+			var window = UIApplication.SharedApplication.Windows[UIApplication.SharedApplication.Windows.Length - 1];
+
 
 			mBackingView = new UIView (window.Bounds);
 
@@ -648,7 +648,7 @@ namespace XamDialogs
 		private void ResetFrame (Boolean animated)
 		{
 
-			var window = UIApplication.SharedApplication.Windows [0];
+			var window = UIApplication.SharedApplication.Windows[UIApplication.SharedApplication.Windows.Length - 1];
 
 			this.Frame = window.Frame;
 

@@ -147,7 +147,7 @@ namespace XamDialogs
 					tcs.SetResult(dialog.SelectedDate);
 				};
 
-				dialog.Show();
+				dialog.Show(UIApplication.SharedApplication.Windows[0]);
 
 			});
 
