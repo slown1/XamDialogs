@@ -12,6 +12,10 @@ namespace XamDialogs
 		#region Fields
 
 		private UIDatePicker mDatePicker;
+		private DatetimeFormat mDateTimeFormat = DatetimeFormat.FULL;
+
+		private DateTime mMinDatetime;
+		private DateTime mMaxDatetime;
 
 		#endregion
 
@@ -25,6 +29,64 @@ namespace XamDialogs
 			get 
 			{
 				return mDatePicker;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the DatetimeFormat.
+		/// </summary>
+		/// <value>The content view.</value>
+		protected DatetimeFormat DatetimeFormat
+		{
+			get
+			{
+				return mDateTimeFormat;
+			}
+			set
+			{
+				mDateTimeFormat = value;
+				if (mDateTimeFormat == DatetimeFormat.FULL)
+				{
+					mDatePicker.Locale = NSLocale.FromLocaleIdentifier("en_GB");
+				}
+				else
+				{
+					mDatePicker.Locale = NSLocale.FromLocaleIdentifier("en_US");
+				}
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the Min Datetime.
+		/// </summary>
+		/// <value>The min date.</value>
+		protected DateTime MinDatetime
+		{
+			get
+			{
+				return mMinDatetime;
+			}
+			set
+			{
+				mMinDatetime = value;
+				mDatePicker.MinimumDate = (NSDate)DateTime.SpecifyKind(mMinDatetime, DateTimeKind.Local);
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the Max Datetime.
+		/// </summary>
+		/// <value>The max date.</value>
+		protected DateTime MaxDatetime
+		{
+			get
+			{
+				return mMaxDatetime;
+			}
+			set
+			{
+				mMaxDatetime = value;
+				mDatePicker.MaximumDate = (NSDate)DateTime.SpecifyKind(mMaxDatetime, DateTimeKind.Local);
 			}
 		}
 			
@@ -58,22 +120,13 @@ namespace XamDialogs
 
 		#region Constructors
 
-		public XamDatePickerDialog(UIDatePickerMode mode, DatetimeFormat dateTimeFormat = DatetimeFormat.AM_PM)
+		public XamDatePickerDialog(UIDatePickerMode mode)
 			: base(XamDialogType.DatePicker)
 		{
 			mDatePicker = new UIDatePicker(CGRect.Empty);
 			mDatePicker.Mode = mode;
 			mDatePicker.TimeZone = NSTimeZone.LocalTimeZone;
 			mDatePicker.Calendar = NSCalendar.CurrentCalendar;
-
-			if (dateTimeFormat == DatetimeFormat.FULL)
-			{
-				mDatePicker.Locale = NSLocale.FromLocaleIdentifier("en_GB");
-			}
-			else
-			{
-				mDatePicker.Locale = NSLocale.FromLocaleIdentifier("en_US");
-			}
 			mDatePicker.ValueChanged += OnValueChanged;
 		}
 
