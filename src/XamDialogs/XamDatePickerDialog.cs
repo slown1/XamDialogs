@@ -36,7 +36,7 @@ namespace XamDialogs
 		/// Gets or sets the DatetimeFormat.
 		/// </summary>
 		/// <value>The content view.</value>
-		protected DatetimeFormat DatetimeFormat
+		public DatetimeFormat DatetimeFormat
 		{
 			get
 			{
@@ -60,7 +60,7 @@ namespace XamDialogs
 		/// Gets or sets the Min Datetime.
 		/// </summary>
 		/// <value>The min date.</value>
-		protected DateTime MinDatetime
+		public DateTime MinDatetime
 		{
 			get
 			{
@@ -77,7 +77,7 @@ namespace XamDialogs
 		/// Gets or sets the Max Datetime.
 		/// </summary>
 		/// <value>The max date.</value>
-		protected DateTime MaxDatetime
+		public DateTime MaxDatetime
 		{
 			get
 			{
