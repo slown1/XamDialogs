@@ -3,10 +3,17 @@
 namespace XamDialogs {
 
 
+	public enum DatetimeFormat
+	{
+		AM_PM,
+		FULL
+	}
+
 	/// <summary>
 	/// Type of dialog
 	/// </summary>
-	public enum XamDialogType {
+	public enum XamDialogType 
+	{
 
 		PlainTextInput,
 		NumberInput,

@@ -58,18 +58,22 @@ namespace XamDialogs
 
 		#region Constructors
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="XamDialogs.DHDatePickerDialog"/> class.
-		/// </summary>
-		/// <param name="mode">Mode.</param>
-		public XamDatePickerDialog (UIDatePickerMode mode) 
+		public XamDatePickerDialog(UIDatePickerMode mode, DatetimeFormat dateTimeFormat = DatetimeFormat.AM_PM)
 			: base(XamDialogType.DatePicker)
 		{
-			mDatePicker = new UIDatePicker (CGRect.Empty);
+			mDatePicker = new UIDatePicker(CGRect.Empty);
 			mDatePicker.Mode = mode;
 			mDatePicker.TimeZone = NSTimeZone.LocalTimeZone;
 			mDatePicker.Calendar = NSCalendar.CurrentCalendar;
 
+			if (dateTimeFormat == DatetimeFormat.FULL)
+			{
+				mDatePicker.Locale = NSLocale.FromLocaleIdentifier("en_GB");
+			}
+			else
+			{
+				mDatePicker.Locale = NSLocale.FromLocaleIdentifier("en_US");
+			}
 			mDatePicker.ValueChanged += OnValueChanged;
 		}
 
